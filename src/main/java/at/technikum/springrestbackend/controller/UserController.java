@@ -30,11 +30,6 @@ public class UserController {
         return userService.findAll().stream().map(userMapper::toDto).toList();
     }
 
-    @GetMapping("/{id}")
-    public UserDto getById(@PathVariable String id){
-        User user = userService.find(id);
-        return userMapper.toDto(user);
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

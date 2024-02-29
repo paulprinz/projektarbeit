@@ -8,6 +8,7 @@ import java.util.List;
 @Table
 public class Playlist {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,6 +25,12 @@ public class Playlist {
 
     public Playlist(Long id, String name, User creator, List<Song> songs) {
         this.id = id;
+        this.name = name;
+        this.creator = creator;
+        this.songs = songs;
+    }
+
+    public Playlist(String name, User creator, List<Song> songs) {
         this.name = name;
         this.creator = creator;
         this.songs = songs;

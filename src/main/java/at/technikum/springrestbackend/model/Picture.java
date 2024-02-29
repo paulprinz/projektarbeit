@@ -1,13 +1,13 @@
 package at.technikum.springrestbackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 
 @Entity
 @Table
 public class Picture {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fileLink;
 
@@ -17,6 +17,10 @@ public class Picture {
 
     public Picture(Long id, String fileLink) {
         this.id = id;
+        this.fileLink = fileLink;
+    }
+
+    public Picture(String fileLink) {
         this.fileLink = fileLink;
     }
 

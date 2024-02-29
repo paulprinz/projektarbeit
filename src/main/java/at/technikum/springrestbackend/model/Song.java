@@ -8,6 +8,7 @@ import java.util.List;
 @Table
 public class Song {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String artist;
@@ -20,8 +21,7 @@ public class Song {
     private String fileLink;
 
     private String genre;
-
-   @OneToOne
+    @OneToOne
     private Picture picture;
 
 
@@ -40,6 +40,26 @@ public class Song {
             Picture picture
     ) {
         this.id = id;
+        this.name = name;
+        this.artist = artist;
+        this.length = length;
+        this.likeCount = likeCount;
+        this.comments = comments;
+        this.fileLink = fileLink;
+        this.genre = genre;
+        this.picture = picture;
+    }
+
+    public Song(
+            String name,
+            String artist,
+            Long length,
+            int likeCount,
+            List<String> comments,
+            String fileLink,
+            String genre,
+            Picture picture
+    ) {
         this.name = name;
         this.artist = artist;
         this.length = length;
