@@ -1,11 +1,11 @@
 package at.technikum.springrestbackend.controller;
 
 
-import at.technikum.springrestbackend.dto.PlaylistDto;
 import at.technikum.springrestbackend.dto.SongDto;
+import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.mapper.SongMapper;
-import at.technikum.springrestbackend.model.Playlist;
 import at.technikum.springrestbackend.model.Song;
+import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.service.SongService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -51,5 +51,11 @@ public class SongController {
     public void deleteById(@PathVariable Long id){
         songService.deleteById(id);
     }
-    
+    @PutMapping("/{id}")
+    public SongDto updateById(@PathVariable Long id, @RequestBody @Valid SongDto songDto) {
+        Song song = songMapper.toEntity(songDto);
+        song.setId(id);
+        song = songService.save(song);
+        return songMapper.toDto(song);
+    }
 }

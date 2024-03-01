@@ -1,14 +1,11 @@
 package at.technikum.springrestbackend.controller;
 
 
-import at.technikum.springrestbackend.dto.PictureDto;
 import at.technikum.springrestbackend.dto.PlaylistDto;
-import at.technikum.springrestbackend.dto.UserDto;
-import at.technikum.springrestbackend.mapper.PictureMapper;
+import at.technikum.springrestbackend.dto.SongDto;
 import at.technikum.springrestbackend.mapper.PlaylistMapper;
-import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.Playlist;
-import at.technikum.springrestbackend.service.PictureService;
+import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.service.PlaylistService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -52,6 +49,14 @@ public class PlaylistController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id){
         playlistService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PlaylistDto updateById(@PathVariable Long id, @RequestBody @Valid PlaylistDto playlistDto) {
+        Playlist playlist = playlistMapper.toEntity(playlistDto);
+        playlist.setId(id);
+        playlist = playlistService.save(playlist);
+        return playlistMapper.toDto(playlist);
     }
     
 }

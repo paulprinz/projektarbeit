@@ -2,13 +2,9 @@ package at.technikum.springrestbackend.controller;
 
 
 import at.technikum.springrestbackend.dto.PictureDto;
-import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.mapper.PictureMapper;
-import at.technikum.springrestbackend.mapper.UserMapper;
 import at.technikum.springrestbackend.model.Picture;
-import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.service.PictureService;
-import at.technikum.springrestbackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

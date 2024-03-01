@@ -43,12 +43,11 @@ public class UserController {
         userService.deleteById(id);
     }
 
-//    @PutMapping("/{id}")
-//    public void updateById(@PathVariable String id){
-//        userService.
-//    }
-
-//    @PostMapping
-//
-//    @DeleteMapping
+    @PutMapping("/{id}")
+    public UserDto updateById(@PathVariable String id, @RequestBody @Valid UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        user.setId(id);
+        user = userService.save(user);
+        return userMapper.toDto(user);
+    }
 }
