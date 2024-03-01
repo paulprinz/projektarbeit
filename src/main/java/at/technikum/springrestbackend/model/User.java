@@ -18,19 +18,16 @@ public class User {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
-    @NotBlank(message = "nickname is mendatory")
     private String nickname;
-    @Email
-    @NotBlank(message = "email is mendatory")
+
     private String email;
     private String role;
-    @NotBlank(message = "birthday is mendatory")
-    @Past
+
     private Date birthday;
 
-    @Size(min = 6, max = 250)
+
     private String password;
-    @NotBlank(message = "country is mendatory")
+
     private String country;
     @OneToOne
     private Picture profilePicture;

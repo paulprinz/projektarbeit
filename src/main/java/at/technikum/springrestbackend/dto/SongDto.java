@@ -3,20 +3,23 @@ package at.technikum.springrestbackend.dto;
 import at.technikum.springrestbackend.model.Picture;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
 public class SongDto {
 
     private Long id;
+    @NotBlank(message = "name is mandatory")
     private String name;
+    @NotBlank(message = "artist is mandatory")
     private String artist;
     private Long length; // in seconds
 
     private int likeCount;
     @Transient
     private List<String> comments;
-
+    @NotBlank(message = "fileLink is mandatory")
     private String fileLink;
 
     private String genre;

@@ -11,16 +11,13 @@ public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "name is mandatory")
     private String name;
-    @NotBlank(message = "artist is mandatory")
     private String artist;
     private Long length; // in seconds
 
     private int likeCount;
     @Transient
     private List<String> comments;
-    @NotBlank(message = "fileLink is mandatory")
     private String fileLink;
 
     private String genre;

@@ -6,18 +6,29 @@ import at.technikum.springrestbackend.model.Song;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 import java.util.List;
 
 public class UserDto {
     private String id;
+    @NotBlank(message = "nickname is mendatory")
     private String nickname;
+    @Email
+    @NotBlank(message = "email is mendatory")
     private String email;
     private String role;
-    private Date birthday;
 
+    @NotBlank(message = "birthday is mendatory")
+    @Past
+    private Date birthday;
+    @Size(min = 6, max = 250)
     private String password;
+    @NotBlank(message = "country is mendatory")
     private String country;
     @OneToOne
     private Picture profilePicture;

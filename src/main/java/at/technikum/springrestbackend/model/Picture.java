@@ -10,7 +10,7 @@ public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "fileLink is mendatory")
+
     private String fileLink;
 
 

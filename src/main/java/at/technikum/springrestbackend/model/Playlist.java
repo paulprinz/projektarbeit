@@ -11,11 +11,9 @@ public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "name is mandatory")
     private String name;
 
     @OneToOne
-    @NotBlank(message = "creator is mandatory")
     private User creator;
 
     @OneToMany

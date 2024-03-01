@@ -1,7 +1,10 @@
 package at.technikum.springrestbackend.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class PictureDto {
     private Long id;
+    @NotBlank(message = "fileLink is mendatory")
     private String fileLink;
 
 
