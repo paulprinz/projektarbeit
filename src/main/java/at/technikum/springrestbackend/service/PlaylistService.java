@@ -1,10 +1,14 @@
 package at.technikum.springrestbackend.service;
 
 
+import at.technikum.springrestbackend.dto.PlaylistDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.Playlist;
+import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.PlaylistRepository;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,16 +44,13 @@ public class PlaylistService {
         playlistRepository.deleteById(id);
     }
 
-//    public PlaylistDto updateById(String id, PlaylistDto playlistDto){
-//
-//
-//
-//        return new PlaylistDto(
-//                id,
-//                playlistDto.getNickname(),
-//                playlistDto.get
-//                );
-//    }
-//
+    public Playlist updateById(Long id, PlaylistDto playlistDto) {
+        Playlist existingPlaylist = playlistRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
+        existingPlaylist.setName(playlistDto.getName());
+        existingPlaylist.setSongs(playlistDto.getSongs());
+
+        return playlistRepository.save(existingPlaylist);
+    }
 }

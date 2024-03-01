@@ -45,9 +45,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public UserDto updateById(@PathVariable String id, @RequestBody @Valid UserDto userDto) {
-        User user = userMapper.toEntity(userDto);
-        user.setId(id);
-        user = userService.save(user);
+        User user = userService.updateById(id,userDto);
         return userMapper.toDto(user);
     }
 }

@@ -53,9 +53,7 @@ public class SongController {
     }
     @PutMapping("/{id}")
     public SongDto updateById(@PathVariable Long id, @RequestBody @Valid SongDto songDto) {
-        Song song = songMapper.toEntity(songDto);
-        song.setId(id);
-        song = songService.save(song);
+        Song song = songService.updateById(id,songDto);
         return songMapper.toDto(song);
     }
 }

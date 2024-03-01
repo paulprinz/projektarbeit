@@ -41,7 +41,4 @@ public class PictureController {
     public void deleteById(@PathVariable Long id){
         pictureService.deleteById(id);
     }
-
-
-
 }

@@ -36,17 +36,4 @@ public class PictureService {
     public void deleteById(Long id){
         pictureRepository.deleteById(id);
     }
-
-//    public PictureDto updateById(String id, PictureDto pictureDto){
-//
-//
-//
-//        return new PictureDto(
-//                id,
-//                pictureDto.getNickname(),
-//                pictureDto.get
-//                );
-//    }
-//
-
 }

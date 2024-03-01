@@ -53,9 +53,7 @@ public class PlaylistController {
 
     @PutMapping("/{id}")
     public PlaylistDto updateById(@PathVariable Long id, @RequestBody @Valid PlaylistDto playlistDto) {
-        Playlist playlist = playlistMapper.toEntity(playlistDto);
-        playlist.setId(id);
-        playlist = playlistService.save(playlist);
+        Playlist playlist = playlistService.updateById(id,playlistDto);
         return playlistMapper.toDto(playlist);
     }
     
