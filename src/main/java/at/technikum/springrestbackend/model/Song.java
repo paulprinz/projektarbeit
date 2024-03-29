@@ -1,8 +1,6 @@
 package at.technikum.springrestbackend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 
 @Entity
@@ -14,12 +12,10 @@ public class Song {
     private String name;
     private String artist;
     private Long length; // in seconds
-
     private int likeCount;
     @Transient
     private List<String> comments;
     private String fileLink;
-
     private String genre;
     @OneToOne
     private Picture picture;
@@ -69,7 +65,6 @@ public class Song {
         this.genre = genre;
         this.picture = picture;
     }
-
 
     public Long getId() {
         return id;

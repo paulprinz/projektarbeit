@@ -3,7 +3,6 @@ package at.technikum.springrestbackend.mapper;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.model.User;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 @Component

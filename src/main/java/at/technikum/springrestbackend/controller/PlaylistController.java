@@ -1,11 +1,8 @@
 package at.technikum.springrestbackend.controller;
 
-
 import at.technikum.springrestbackend.dto.PlaylistDto;
-import at.technikum.springrestbackend.dto.SongDto;
 import at.technikum.springrestbackend.mapper.PlaylistMapper;
 import at.technikum.springrestbackend.model.Playlist;
-import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.service.PlaylistService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/playlists")
 public class PlaylistController {
-
     private final PlaylistService playlistService;
     private final PlaylistMapper playlistMapper;
 
@@ -25,7 +21,6 @@ public class PlaylistController {
         this.playlistService = playlistService;
         this.playlistMapper = playlistMapper;
     }
-
 
     @GetMapping("/all")
     public List<PlaylistDto> getAll(){
@@ -56,5 +51,4 @@ public class PlaylistController {
         Playlist playlist = playlistService.updateById(id,playlistDto);
         return playlistMapper.toDto(playlist);
     }
-    
 }

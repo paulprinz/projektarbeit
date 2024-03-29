@@ -1,10 +1,6 @@
 package at.technikum.springrestbackend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
@@ -19,15 +15,10 @@ public class User {
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
     private String nickname;
-
     private String email;
     private String role;
-
     private Date birthday;
-
-
     private String password;
-
     private String country;
     @OneToOne
     private Picture profilePicture;
@@ -35,9 +26,7 @@ public class User {
     private List<Song> songs;
     @OneToMany
     private List<Playlist> playlists;
-
     private int followerCount;
-
     private boolean status;
 
 
@@ -71,10 +60,6 @@ public class User {
         this.followerCount = followerCount;
         this.status = status;
     }
-
-
-
-
 
     public String getId() {
         return id;
@@ -171,6 +156,4 @@ public class User {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
-
 }

@@ -5,18 +5,15 @@ import at.technikum.springrestbackend.model.User;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 
 public class PlaylistDto {
     private Long id;
     @NotBlank(message = "name is mandatory")
     private String name;
-
     @OneToOne
     @NotBlank(message = "creator is mandatory")
     private User creator;
-
     @OneToMany
     private List<Song> songs;
 

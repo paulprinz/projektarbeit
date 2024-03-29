@@ -1,11 +1,8 @@
 package at.technikum.springrestbackend.controller;
 
-
 import at.technikum.springrestbackend.dto.SongDto;
-import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.mapper.SongMapper;
 import at.technikum.springrestbackend.model.Song;
-import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.service.SongService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/songs")
 public class SongController {
-
     private final SongService songService;
     private final SongMapper songMapper;
 
@@ -26,12 +22,10 @@ public class SongController {
         this.songMapper = songMapper;
     }
 
-
     @GetMapping("/all")
     public List<SongDto> getAll(){
         return songService.findAll().stream().map(songMapper::toDto).toList();
     }
-
 
     @GetMapping("/{id}")
     public SongDto getById(@PathVariable Long id){

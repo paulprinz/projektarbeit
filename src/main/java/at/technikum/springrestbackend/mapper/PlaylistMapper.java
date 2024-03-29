@@ -1,8 +1,6 @@
 package at.technikum.springrestbackend.mapper;
 
-import at.technikum.springrestbackend.dto.PictureDto;
 import at.technikum.springrestbackend.dto.PlaylistDto;
-import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.Playlist;
 import org.springframework.stereotype.Component;
 

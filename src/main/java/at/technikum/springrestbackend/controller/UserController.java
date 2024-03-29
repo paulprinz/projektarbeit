@@ -1,6 +1,5 @@
 package at.technikum.springrestbackend.controller;
 
-
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.mapper.UserMapper;
 import at.technikum.springrestbackend.model.User;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequestMapping("/users")
 @CrossOrigin
 public class UserController {
-
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -30,7 +28,6 @@ public class UserController {
         return userService.findAll().stream().map(userMapper::toDto).toList();
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(@RequestBody @Valid UserDto userDto){
@@ -38,6 +35,7 @@ public class UserController {
         user = userService.save(user);
         return userMapper.toDto(user);
     }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable String id){
         userService.deleteById(id);

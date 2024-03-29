@@ -1,8 +1,7 @@
 package at.technikum.springrestbackend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
 
 @Entity
 @Table
@@ -12,7 +11,6 @@ public class Picture {
     private Long id;
 
     private String fileLink;
-
 
     public Picture() {
     }

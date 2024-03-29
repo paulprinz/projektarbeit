@@ -3,14 +3,12 @@ package at.technikum.springrestbackend.dto;
 import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.Playlist;
 import at.technikum.springrestbackend.model.Song;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class UserDto {
     @NotBlank(message = "email is mendatory")
     private String email;
     private String role;
-
     @NotBlank(message = "birthday is mendatory")
     @Past
     private Date birthday;
@@ -36,10 +33,9 @@ public class UserDto {
     private List<Song> songs;
     @OneToMany
     private List<Playlist> playlists;
-
     private int followerCount;
-
     private boolean status;
+
 
     public UserDto() {
     }

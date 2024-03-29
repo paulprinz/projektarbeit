@@ -1,6 +1,5 @@
 package at.technikum.springrestbackend.controller;
 
-
 import at.technikum.springrestbackend.dto.PictureDto;
 import at.technikum.springrestbackend.mapper.PictureMapper;
 import at.technikum.springrestbackend.model.Picture;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/pictures")
 public class PictureController {
-
     private final PictureService pictureService;
     private final PictureMapper pictureMapper;
 
@@ -21,8 +19,7 @@ public class PictureController {
         this.pictureService = pictureService;
         this.pictureMapper = pictureMapper;
     }
-    
-    
+
     @GetMapping("/{id}")
     public PictureDto getById(@PathVariable Long id){
         Picture picture = pictureService.find(id);

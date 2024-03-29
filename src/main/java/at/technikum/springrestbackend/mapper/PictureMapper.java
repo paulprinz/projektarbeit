@@ -4,7 +4,6 @@ import at.technikum.springrestbackend.dto.PictureDto;
 import at.technikum.springrestbackend.model.Picture;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 @Component
 public class PictureMapper {
