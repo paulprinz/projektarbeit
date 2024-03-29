@@ -11,11 +11,10 @@ public class SongDto {
     @NotBlank(message = "name is mandatory")
     private String name;
     @NotBlank(message = "artist is mandatory")
-    private String artist;
+    private String artist; // make model
     private Long length; // in seconds
     private int likeCount;
-    @Transient
-    private List<String> comments;
+    private List<String> comments; // make model
     @NotBlank(message = "fileLink is mandatory")
     private String fileLink;
     private String genre;
