@@ -1,42 +1,26 @@
 package at.technikum.springrestbackend.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+// TODO - annotations
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Table
+@Table(name = "picture")
 public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     private String fileLink;
 
-    public Picture() {
-    }
+    // TODO - join table
+    private Long userId;
 
-    public Picture(Long id, String fileLink) {
-        this.id = id;
-        this.fileLink = fileLink;
-    }
-
-    public Picture(String fileLink) {
-        this.fileLink = fileLink;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFileLink() {
-        return fileLink;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setFileLink(String fileLink) {
-        this.fileLink = fileLink;
-    }
 }

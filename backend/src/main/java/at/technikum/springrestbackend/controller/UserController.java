@@ -1,49 +1,66 @@
 package at.technikum.springrestbackend.controller;
 
 import at.technikum.springrestbackend.dto.UserDto;
-import at.technikum.springrestbackend.mapper.UserMapper;
+import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.service.UserService;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 @CrossOrigin
 public class UserController {
-    private final UserService userService;
-    private final UserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
 
-    public UserController(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
-    }
-
-    @GetMapping("/all")
+    @GetMapping("/getAllUsers")
     public List<UserDto> getAll(){
-        return userService.findAll().stream().map(userMapper::toDto).toList();
+        return userService.findAll().stream().map(userService::convertToDto).toList();
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@RequestBody @Valid UserDto userDto){
-        User user = userMapper.toEntity(userDto);
-        user = userService.save(user);
-        return userMapper.toDto(user);
+    @GetMapping("/getUser/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(userService.convertToDto(user));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable String id){
-        userService.deleteById(id);
+    @GetMapping("/getUserByName/{username}")
+    public ResponseEntity<UserDto> getUserByName(@PathVariable String username) throws  EntityNotFoundException {
+        User user = userService.findByName(username);
+        return ResponseEntity.ok(userService.convertToDto(user));
     }
 
-    @PutMapping("/{id}")
-    public UserDto updateById(@PathVariable String id, @RequestBody @Valid UserDto userDto) {
-        User user = userService.updateById(id,userDto);
-        return userMapper.toDto(user);
+    @PostMapping("/create")
+    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.convertToDto(userService.save(userDto)));
     }
+
+    @DeleteMapping("deleteUser/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<UserDto> updateById(@RequestBody UserDto userDto) {
+        try {
+            User updatedUser = userService.updateUser(userDto);
+            return ResponseEntity.ok(userService.convertToDto(updatedUser));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

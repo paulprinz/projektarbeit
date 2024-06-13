@@ -1,53 +1,60 @@
 package at.technikum.springrestbackend.controller;
 
 import at.technikum.springrestbackend.dto.SongDto;
-import at.technikum.springrestbackend.mapper.SongMapper;
 import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.service.SongService;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/songs")
+@RequestMapping("api/songs")
 public class SongController {
-    private final SongService songService;
-    private final SongMapper songMapper;
+
+    @Autowired
+    SongService songService;
 
 
-    public SongController(SongService songService, SongMapper songMapper) {
-        this.songService = songService;
-        this.songMapper = songMapper;
+    @GetMapping("/getAllSongs")
+    public List<SongDto> getAllSongs(){
+        return songService.findAll().stream()
+                .map(songService::convertToDto)
+                .toList();
     }
 
-    @GetMapping("/all")
-    public List<SongDto> getAll(){
-        return songService.findAll().stream().map(songMapper::toDto).toList();
+    @GetMapping("/getSong/{id}")
+    public ResponseEntity<SongDto>  getSongById(@PathVariable Long id){
+        Song song = songService.findById(id);
+        return ResponseEntity.ok(songService.convertToDto(song));
     }
 
-    @GetMapping("/{id}")
-    public SongDto getById(@PathVariable Long id){
-        Song song = songService.find(id);
-        return songMapper.toDto(song);
+    @PostMapping("/create")
+    public ResponseEntity<SongDto> createSong(@RequestBody SongDto songDto) throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(songService.convertToDto(songService.save(songDto)));
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public SongDto create(@RequestBody @Valid SongDto songDto){
-        Song song = songMapper.toEntity(songDto);
-        song = songService.save(song);
-        return songMapper.toDto(song);
+    @DeleteMapping("deleteSong/{id}")
+    public ResponseEntity<Void> deleteSong(@PathVariable Long id){
+        try {
+            songService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id){
-        songService.deleteById(id);
+    @PutMapping("/updateSong")
+    public ResponseEntity<SongDto> updateSong(@RequestBody SongDto songDto) {
+        try {
+            Song updatedSong = songService.updateById(songDto);
+            return ResponseEntity.ok(songService.convertToDto(updatedSong));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-    @PutMapping("/{id}")
-    public SongDto updateById(@PathVariable Long id, @RequestBody @Valid SongDto songDto) {
-        Song song = songService.updateById(id,songDto);
-        return songMapper.toDto(song);
-    }
+
 }

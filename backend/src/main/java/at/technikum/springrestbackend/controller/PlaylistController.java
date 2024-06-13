@@ -1,54 +1,61 @@
 package at.technikum.springrestbackend.controller;
 
 import at.technikum.springrestbackend.dto.PlaylistDto;
-import at.technikum.springrestbackend.mapper.PlaylistMapper;
+import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.Playlist;
 import at.technikum.springrestbackend.service.PlaylistService;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/playlists")
+@RequestMapping("api/playlists")
 public class PlaylistController {
-    private final PlaylistService playlistService;
-    private final PlaylistMapper playlistMapper;
+
+    @Autowired
+    PlaylistService playlistService;
 
 
-    public PlaylistController(PlaylistService playlistService, PlaylistMapper playlistMapper) {
-        this.playlistService = playlistService;
-        this.playlistMapper = playlistMapper;
+    @GetMapping("/getAllPlaylists")
+    public List<PlaylistDto> getAllPlaylists(){
+        return playlistService.findAll().stream()
+                .map(playlistService::convertToDto)
+                .toList();
     }
 
-    @GetMapping("/all")
-    public List<PlaylistDto> getAll(){
-        return playlistService.findAll().stream().map(playlistMapper::toDto).toList();
+    @GetMapping("getPlaylist/{id}")
+    public ResponseEntity<PlaylistDto> getById(@PathVariable Long id) throws EntityNotFoundException {
+        Playlist playlist = playlistService.findById(id);
+        return ResponseEntity.ok(playlistService.convertToDto(playlist));
     }
 
-    @GetMapping("/{id}")
-    public PlaylistDto getById(@PathVariable Long id){
-        Playlist playlist = playlistService.find(id);
-        return playlistMapper.toDto(playlist);
+    @PostMapping("/create")
+    public ResponseEntity<PlaylistDto>  create(@RequestBody PlaylistDto playlistDto) throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(playlistService.convertToDto(playlistService.save(playlistDto)));
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PlaylistDto create(@RequestBody @Valid PlaylistDto playlistDto){
-        Playlist playlist = playlistMapper.toEntity(playlistDto);
-        playlist = playlistService.save(playlist);
-        return playlistMapper.toDto(playlist);
+    @PutMapping("/updatePlaylist")
+    public ResponseEntity<PlaylistDto> updateById(@RequestBody PlaylistDto playlistDto) {
+        try {
+            Playlist updatedPlaylist = playlistService.updateById(playlistDto);
+            return ResponseEntity.ok(playlistService.convertToDto(updatedPlaylist));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id){
-        playlistService.deleteById(id);
+    @DeleteMapping("deletePlaylist/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        try {
+            playlistService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @PutMapping("/{id}")
-    public PlaylistDto updateById(@PathVariable Long id, @RequestBody @Valid PlaylistDto playlistDto) {
-        Playlist playlist = playlistService.updateById(id,playlistDto);
-        return playlistMapper.toDto(playlist);
-    }
 }
