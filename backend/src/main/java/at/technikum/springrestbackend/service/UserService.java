@@ -5,6 +5,8 @@ import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -14,6 +16,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Lazy
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     /**
      * Retrieves all users from the repository.
@@ -64,11 +69,11 @@ public class UserService {
     public User save(UserDto userDto) throws Exception {
         try {
             User user = new User();
-            user.setNickname(userDto.getNickname());
+            user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
             user.setBirthday(userDto.getBirthday());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setCountry(userDto.getCountry());
             user.setFollowerCount(userDto.getFollowerCount());
             user.setStatus(userDto.isStatus());
@@ -90,11 +95,11 @@ public class UserService {
         try {
             User existingUser = findById(userDto.getId());
 
-            existingUser.setNickname(userDto.getNickname());
+            existingUser.setUsername(userDto.getUsername());
             existingUser.setEmail(userDto.getEmail());
             existingUser.setRole(userDto.getRole());
             existingUser.setBirthday(userDto.getBirthday());
-            existingUser.setPassword(userDto.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
             existingUser.setCountry(userDto.getCountry());
             existingUser.setFollowerCount(userDto.getFollowerCount());
             existingUser.setStatus(userDto.isStatus());
@@ -128,7 +133,7 @@ public class UserService {
     public UserDto convertToDto(User user) {
         return new UserDto(
                 user.getId(),
-                user.getNickname(),
+                user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
                 user.getBirthday(),

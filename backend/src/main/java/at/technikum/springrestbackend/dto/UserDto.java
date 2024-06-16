@@ -5,13 +5,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 
-
 @Getter
 @Setter
 public class UserDto {
     private Long id;
 
-    private String nickname;
+    private String username;
 
     private String email;
 
@@ -30,7 +29,7 @@ public class UserDto {
 
     public UserDto(
             Long id,
-            String nickname,
+            String username,
             String email,
             String role,
             LocalDate birthday,
@@ -40,7 +39,7 @@ public class UserDto {
             boolean status
     ) {
         this.id = id;
-        this.nickname = nickname;
+        this.username = username;
         this.email = email;
         this.role = role;
         this.birthday = birthday;
