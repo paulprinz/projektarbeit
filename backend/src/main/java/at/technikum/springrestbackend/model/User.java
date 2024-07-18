@@ -25,9 +25,8 @@ public class User {
 
     private String role;
 
-    private LocalDate birthday;
+    private LocalDate birthDate;
 
-    // TODO - implement security
     private String password;
 
     private String country;

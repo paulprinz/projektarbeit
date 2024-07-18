@@ -6,12 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
-/**
- * Using JpaRepository
- * instead of JpaRepository
- * has all the functions of CrudRepository and PagingAndSortingRepository
- */
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

@@ -72,7 +72,7 @@ public class UserService {
             user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
-            user.setBirthday(userDto.getBirthday());
+            user.setBirthDate(userDto.getBirthDate());
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setCountry(userDto.getCountry());
             user.setFollowerCount(userDto.getFollowerCount());
@@ -98,7 +98,7 @@ public class UserService {
             existingUser.setUsername(userDto.getUsername());
             existingUser.setEmail(userDto.getEmail());
             existingUser.setRole(userDto.getRole());
-            existingUser.setBirthday(userDto.getBirthday());
+            existingUser.setBirthDate(userDto.getBirthDate());
             existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
             existingUser.setCountry(userDto.getCountry());
             existingUser.setFollowerCount(userDto.getFollowerCount());
@@ -136,7 +136,7 @@ public class UserService {
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
-                user.getBirthday(),
+                user.getBirthDate(),
                 user.getPassword(),
                 user.getCountry(),
                 user.getFollowerCount(),

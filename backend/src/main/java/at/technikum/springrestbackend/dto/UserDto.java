@@ -16,7 +16,7 @@ public class UserDto {
 
     private String role;
 
-    private LocalDate birthday;
+    private LocalDate birthDate;
 
     private String password;
 
@@ -32,7 +32,7 @@ public class UserDto {
             String username,
             String email,
             String role,
-            LocalDate birthday,
+            LocalDate birthDate,
             String password,
             String country,
             int followerCount,
@@ -42,7 +42,7 @@ public class UserDto {
         this.username = username;
         this.email = email;
         this.role = role;
-        this.birthday = birthday;
+        this.birthDate = birthDate;
         this.password = password;
         this.country = country;
         this.followerCount = followerCount;
