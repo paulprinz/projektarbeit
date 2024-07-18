@@ -1,0 +1,26 @@
+/* LOGIN */
+#loginbox {
+    width: 300px;
+    height: 320px;
+}
+
+/* Register */
+#registerbox {
+    width: 400px;
+    height: 620px;  
+}
+
+/* Input */
+.inputFields {
+    width: 75%;
+}
+
+
+.material-symbols-rounded {
+    font-family: 'MaterialSymbolsRounded';
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' -25,
+    'opsz' 40
+  }

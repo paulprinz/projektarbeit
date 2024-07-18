@@ -1,0 +1,57 @@
+<!-- Navbar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid justify-content-between">
+      <!-- Left elements -->
+      <div class="d-flex">
+        <!-- Search form -->
+        <form class="input-group w-auto my-auto d-none d-sm-flex">
+          <input
+            autocomplete="off"
+            type="search"
+            class="form-control rounded"
+            placeholder="Search"
+          />
+        </form>
+      </div>
+      <!-- Left elements -->
+  
+      <!-- Center elements -->
+      <ul class="navbar-nav flex-row d-none d-md-flex">
+        <!-- ELement 1 -->
+        <li class="nav-item me-3 me-lg-1 active">
+          <button mat-icon-button (click)="navigateToHome()" matTooltip="Home" arial-label="Home">
+            <mat-icon class="material-symbols-outlined" style="font-size: 25px;" >
+              home
+            </mat-icon>
+        </button>
+        </li>
+
+      </ul>
+
+      <!-- Right elements -->
+      <ul class="navbar-nav flex-row">
+        <!-- ELement 1 -->
+        <li class="nav-item me-3 me-lg-1">
+          <!-- LOGIN or Sign Up Button -->
+          <div *ngIf="!this.loginService.isAuthenticated()">
+            <button mat-icon-button (click)="navigateToLogin()" matTooltip="Login" aria-label="Login">
+              <mat-icon class="material-symbols-outlined" style="font-size: 25px;" >
+                login
+              </mat-icon>
+            </button>
+            <button mat-icon-button (click)="navigateToSignUp()" matTooltip="Sign Up" aria-label="Sign Up">
+              <mat-icon class="material-symbols-outlined" style="font-size: 25px;" >
+                logout
+              </mat-icon>
+            </button>
+          </div>
+          <!-- If the user is logged in -->
+          <div *ngIf="this.loginService.isAuthenticated()">
+            <button mat-raised-button (click)="logout()" matTooltip="Logout" aria-label="Logout">
+              Logout
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>

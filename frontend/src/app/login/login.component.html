@@ -1,0 +1,44 @@
+<!-- LOGIN -->
+<div class="position-absolute top-50 start-50 translate-middle">
+  <mat-card id="loginbox">
+    &nbsp;
+    <mat-card-title class="d-flex justify-content-center">
+      Login
+    </mat-card-title>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <div class="d-flex justify-content-center">
+          <!-- USERNAME -->
+          <mat-form-field class="inputFields">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              <strong>Username is required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- PASSWORD -->
+        <div class="d-flex justify-content-center">
+          <mat-form-field class="inputFields">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              <strong>Password is required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <!-- BUTTONS -->
+      <mat-card-actions class="d-flex justify-content-center">
+        <div class="d-grid gap-2 col-8 mx-auto">
+          <button mat-raised-button type="submit">
+            Sign In
+          </button>
+        </div>
+      </mat-card-actions>
+    </form>
+    <button mat-button (click)="navigateToSignUp()">
+      Create an account
+    </button>
+  </mat-card>
+</div>
