@@ -3,8 +3,6 @@ package at.technikum.springrestbackend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-// TODO - annotations
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,12 +13,12 @@ import lombok.*;
 public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    private String fileLink;
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
-    // TODO - join table
-    private Long userId;
+    private String fileName;
 
 }

@@ -19,7 +19,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
-
+import { UserDetailsComponent } from './user-details/user-details.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     HomeComponent,
     RegisterComponent,
     NavbarComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatMenuModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,

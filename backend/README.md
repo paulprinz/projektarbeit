@@ -23,6 +23,16 @@ This is the template project for the BWENG course.
   * /swagger.html (Swagger API UI)
 
 ## Setup
+
+Start
+```shell
+docker compose start
+```
+Stop 
+```shell
+docker compose stop
+```
+##
 Build Docker container
 ```shell
 docker compose build

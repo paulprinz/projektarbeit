@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
 import { TokenService } from '../login/token.service';
@@ -35,6 +35,10 @@ export class NavbarComponent implements OnInit {
   // Navigate to Login
   navigateToLogin() {
     this.router.navigateByUrl('/login');
+  }
+
+  navigateToMyProfile() {
+    this.router.navigateByUrl('/me');
   }
 
   logout() {

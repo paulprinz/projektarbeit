@@ -59,28 +59,33 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       const username = this.registerForm.get('username')?.value;
       const password = this.registerForm.get('password')?.value;
-
+      const confirmPassword = this.registerForm.get('confirmPassword')?.value;
+      
       const email = this.registerForm.get('email')?.value;
       const birthDate = this.registerForm.get('birthDate')?.value.toISOString().slice(0, 10);
       const country = this.registerForm.get('country')?.value;
-
-      this.loginService.createUser(
-        username, 
-        password,
-        email,
-        "ROLE_USER",
-        birthDate,
-        country,
-        0,
-        true
-      )
-      .then(() => {
-        this.openSnackBar('Registration successful!');
-        this.navigate();
-      })
-      .catch((error: { message: string; }) => {
-        this.openSnackBar('Registration failed: ' + error.message);
-      });
+      
+      if(password === confirmPassword) {
+        this.loginService.createUser(
+          username, 
+          password,
+          email,
+          "ROLE_USER",
+          birthDate,
+          country,
+          0,
+          true
+        )
+        .then(() => {
+          this.openSnackBar('Registration successful!');
+          this.navigate();
+        })
+        .catch((error: { message: string; }) => {
+          this.openSnackBar('Registration failed: ' + error.message);
+        });
+      } else {
+        this.openSnackBar('Passwords do NOT match!');
+      }
     }
   }
 
