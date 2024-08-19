@@ -1,12 +1,15 @@
 package at.technikum.springrestbackend.controller;
 
+import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.User;
+import at.technikum.springrestbackend.security.principal.UserPrincipal;
 import at.technikum.springrestbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -28,6 +31,14 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
         User user = userService.findById(id);
         return ResponseEntity.ok(userService.convertToDto(user));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDetailsDto> getMyUser(
+            @AuthenticationPrincipal UserPrincipal userPrincipal) throws EntityNotFoundException {
+
+        User user = userService.findById(userPrincipal.getId());
+        return ResponseEntity.ok(userService.convertToUserDetailsDto(user));
     }
 
     @GetMapping("/getUserByName/{username}")

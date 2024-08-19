@@ -8,13 +8,10 @@ import lombok.Setter;
 public class PictureDto {
     private Long id;
 
-    private String fileLink;
-
     private Long userId;
 
-    public PictureDto(Long id, String fileLink, Long userId) {
+    public PictureDto(Long id, Long userId) {
         this.id = id;
-        this.fileLink = fileLink;
         this.userId = userId;
     }
 

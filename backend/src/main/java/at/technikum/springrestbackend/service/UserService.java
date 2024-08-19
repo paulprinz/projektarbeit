@@ -1,14 +1,19 @@
 package at.technikum.springrestbackend.service;
 
+import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
+import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.User;
+import at.technikum.springrestbackend.repository.PictureRepository;
 import at.technikum.springrestbackend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,6 +24,9 @@ public class UserService {
     @Lazy
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PictureRepository pictureRepository;
 
     /**
      * Retrieves all users from the repository.
@@ -125,6 +133,32 @@ public class UserService {
     }
 
     /**
+     * Retrieves the associated Picture with the specified User.
+     * @return an {@link Optional} containing the {@link Picture} if found,
+     * or an empty {@link Optional} if no Picture is associated with the user.
+     */
+    public Optional<Picture> getPictureByUser(Long userId) throws Exception {
+        User user = findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User must not be null.");
+        }
+        return pictureRepository.findByUser(userId);
+    }
+
+    /**
+     * Deletes the Picture associated with the specified user ID.
+     * @param userId the ID of the user whose Picture should be deleted
+     */
+    @Transactional
+    public void deletePictureByUserId(Long userId) throws Exception {
+        User user = findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User must not be null.");
+        }
+        pictureRepository.deleteByUserId(userId);
+    }
+
+    /**
      * Converts a User entity to a UserDto.
      *
      * @param user the user entity to be converted.
@@ -143,4 +177,23 @@ public class UserService {
                 user.isStatus()
         );
     }
+
+    /**
+     * Converts a User object to a UserDetails
+     * @param user User object
+     * @return UserDetails
+     */
+    public UserDetailsDto convertToUserDetailsDto(User user) {
+        return new UserDetailsDto(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole(),
+                user.getBirthDate(),
+                user.getCountry(),
+                user.getFollowerCount(),
+                user.isStatus()
+        );
+    }
+
 }

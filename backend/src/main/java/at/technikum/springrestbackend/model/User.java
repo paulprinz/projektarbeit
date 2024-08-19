@@ -35,4 +35,7 @@ public class User {
 
     private boolean status;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Picture picture;
+
 }

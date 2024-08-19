@@ -1,13 +1,19 @@
 /* LOGIN */
 #loginbox {
-    width: 300px;
-    height: 320px;
+    width: 400px;
+    height: auto; 
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
 }
 
 /* Register */
 #registerbox {
     width: 400px;
-    height: 620px;  
+    height: auto; 
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
 }
 
 /* Input */
@@ -15,12 +21,74 @@
     width: 75%;
 }
 
+/* Avatar */
+.avatar-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-.material-symbols-rounded {
-    font-family: 'MaterialSymbolsRounded';
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' -25,
-    'opsz' 40
-  }
+.box-shadow-avatar {
+    box-shadow: 0 10px 20px 20px #6c93001a;
+}
+
+.image-container {
+    height: 100px;
+    width: 100px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-container.avatar-placeholder {
+    background-image: url('shared/assets/avatar-placeholder.png');
+}
+
+.icon-wrapper {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.icon-wrapper .icon {
+    color: white;
+    font-size: 16px;
+}
+
+.icon-wrapper label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-wrapper input[type='file'] {
+    display: none;
+}
+
+/* UserDetails */
+#user-details-box {
+    width: 400px;
+    height: auto; 
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+}

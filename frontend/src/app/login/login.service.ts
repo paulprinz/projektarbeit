@@ -30,12 +30,14 @@ export class LoginService {
    * Sends the authentication details to the server and saves the returned token in local storage
   */
   authenticateUser(username: string, password: string): Observable<void> {
-    const body = {username, password};
-
-    return this.http.post(this.apiUrl + '/auth/login', body, {'responseType':'text'}).pipe(map(response => {
-      const token = response;
-      this.saveToken(token);
-    }));
+    const body = { username, password };
+  
+    return this.http.post<{ token: string }>(this.apiUrl + '/auth/login', body).pipe(
+      map(response => {
+        const token = response.token;
+        this.saveToken(token);
+      })
+    );
   }
 
   /**
@@ -120,4 +122,5 @@ export class LoginService {
       throw new Error('Error creating user: ' + error);
     }
   }
+  
 }  
