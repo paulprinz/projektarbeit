@@ -22,12 +22,12 @@ public class UserController {
     UserService userService;
 
 
-    @GetMapping("/getAllUsers")
-    public List<UserDto> getAll(){
+    @GetMapping("/get-all")
+    public List<UserDto> getAllUsers(){
         return userService.findAll().stream().map(userService::convertToDto).toList();
     }
 
-    @GetMapping("/getUser/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
         User user = userService.findById(id);
         return ResponseEntity.ok(userService.convertToDto(user));
@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok(userService.convertToUserDetailsDto(user));
     }
 
-    @GetMapping("/getUserByName/{username}")
+    @GetMapping("/get-user-by-name/{username}")
     public ResponseEntity<UserDto> getUserByName(@PathVariable String username) throws  EntityNotFoundException {
         User user = userService.findByName(username);
         return ResponseEntity.ok(userService.convertToDto(user));
@@ -54,7 +54,7 @@ public class UserController {
                 .body(userService.convertToDto(userService.save(userDto)));
     }
 
-    @DeleteMapping("deleteUser/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         try {
             userService.deleteUser(id);
@@ -64,7 +64,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/updateUser")
+    @PutMapping("/update")
     public ResponseEntity<UserDto> updateById(@RequestBody UserDto userDto) {
         try {
             User updatedUser = userService.updateUser(userDto);

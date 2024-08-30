@@ -18,14 +18,14 @@ public class PlaylistController {
     PlaylistService playlistService;
 
 
-    @GetMapping("/getAllPlaylists")
+    @GetMapping("/get-all")
     public List<PlaylistDto> getAllPlaylists(){
         return playlistService.findAll().stream()
                 .map(playlistService::convertToDto)
                 .toList();
     }
 
-    @GetMapping("getPlaylist/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<PlaylistDto> getById(@PathVariable Long id) throws EntityNotFoundException {
         Playlist playlist = playlistService.findById(id);
         return ResponseEntity.ok(playlistService.convertToDto(playlist));
@@ -38,7 +38,7 @@ public class PlaylistController {
                 .body(playlistService.convertToDto(playlistService.save(playlistDto)));
     }
 
-    @PutMapping("/updatePlaylist")
+    @PutMapping("/update")
     public ResponseEntity<PlaylistDto> updateById(@RequestBody PlaylistDto playlistDto) {
         try {
             Playlist updatedPlaylist = playlistService.updateById(playlistDto);
@@ -48,7 +48,7 @@ public class PlaylistController {
         }
     }
 
-    @DeleteMapping("deletePlaylist/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         try {
             playlistService.deleteById(id);

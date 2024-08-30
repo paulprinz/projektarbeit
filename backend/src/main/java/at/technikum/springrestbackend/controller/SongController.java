@@ -17,14 +17,14 @@ public class SongController {
     SongService songService;
 
 
-    @GetMapping("/getAllSongs")
+    @GetMapping("/get-all")
     public List<SongDto> getAllSongs(){
         return songService.findAll().stream()
                 .map(songService::convertToDto)
                 .toList();
     }
 
-    @GetMapping("/getSong/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<SongDto>  getSongById(@PathVariable Long id){
         Song song = songService.findById(id);
         return ResponseEntity.ok(songService.convertToDto(song));
@@ -37,7 +37,7 @@ public class SongController {
                 .body(songService.convertToDto(songService.save(songDto)));
     }
 
-    @DeleteMapping("deleteSong/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long id){
         try {
             songService.deleteById(id);
@@ -47,7 +47,7 @@ public class SongController {
         }
     }
 
-    @PutMapping("/updateSong")
+    @PutMapping("/update")
     public ResponseEntity<SongDto> updateSong(@RequestBody SongDto songDto) {
         try {
             Song updatedSong = songService.updateById(songDto);
