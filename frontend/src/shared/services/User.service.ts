@@ -15,8 +15,8 @@ export class UserService {
     ) {}
     
     private apiUrl = 'http://localhost:8080/api/users';
-    private getUserByNameUrl = '/getUserByName/';
-    private getUserByIdUrl = '/getUser/';
+    private getUserByNameUrl = '/get-user-by-name/';
+    private getUserByIdUrl = '/get/';
     private getMyUserUrl = '/me';
 
     getUserDetailsByName(username: string): Observable<UserDetails> {
