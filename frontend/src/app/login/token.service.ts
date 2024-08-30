@@ -37,6 +37,30 @@ export class TokenService {
         }
         return this.jwtHelper.decodeToken().username as string;
     }
+
+    /**
+     * Gets userId from token
+     * @returns userId
+     */
+    getUserId(): number | null {
+        const token = get();
+        if(!token) {
+            return null;
+        }
+        return this.jwtHelper.decodeToken().sub as number;
+    }
+
+    /**
+     * Gets privileges from token
+     * @returns privileges
+     */
+    getUserPrivileges(): string[] | null {
+        const token = get();
+        if (!token) {
+          return null;
+        }
+        return this.jwtHelper.decodeToken().roles as string[];
+    }
     
 }
 

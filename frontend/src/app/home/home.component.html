@@ -15,7 +15,8 @@
       <div *ngIf="this.loginService.isAuthenticated()">
         <div class="col">
           &nbsp;
-          <p>You're logged in as: {{ username }}</p>
+          <p>You're logged in as: <b>{{ username }}</b> and your ID is: <b>{{userId}}</b></p>
+          <p>Your privileges are: <b>{{ userPrivileges }}</b> </p>
         </div>
       </div>
     </mat-card-content>
