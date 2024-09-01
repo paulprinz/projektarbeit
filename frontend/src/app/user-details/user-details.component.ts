@@ -21,9 +21,10 @@ export class UserDetailsComponent implements OnInit {
   userDetails: UserDetails | undefined;
   selectedUserId: number | undefined;
   userId: number | undefined;
-  currentUserId: number | undefined;
   username: string | undefined;
+  userIdParam: string | null | undefined;
 
+  // Password change
   passwordForm: FormGroup = this.fb.group({
     oldPassword: ['', Validators.required],
     newPassword: ['', Validators.required],
@@ -35,17 +36,17 @@ export class UserDetailsComponent implements OnInit {
     private fileService: FileService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     // Get the ID from the URL
     this.route.paramMap.subscribe(async (params: ParamMap) => {
-      const userIdParam = params.get('id');
+      this.userIdParam = params.get('id');
   
-      if (userIdParam) {
+      if (this.userIdParam) {
         // Load user details by ID
-        this.selectedUserId = +userIdParam;
+        this.selectedUserId = +this.userIdParam;
         this.loadUserDetailsById();
       } else {
         // Load details for the logged-in user
@@ -53,7 +54,7 @@ export class UserDetailsComponent implements OnInit {
       }
     });
   }
-  
+
   loadUserDetailsById() {
     if (this.selectedUserId) {
       this.userService.getUserDetailsById(this.selectedUserId).subscribe(
@@ -185,10 +186,6 @@ export class UserDetailsComponent implements OnInit {
         this.openSnackBar(error.error);
       }
     });
-  }
-
-  isCurrentUser(): boolean {
-    return this.userId === this.;
   }
 
   openSnackBar(message: string): void {

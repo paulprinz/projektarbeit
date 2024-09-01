@@ -21,6 +21,7 @@ export class UserService {
     private getMyUserUrl = '/me';
     private changePasswordUrl = '/change-password';
 
+    
     getUserDetailsByName(username: string): Observable<UserDetails> {
         return this.http.get<UserDetails>(this.apiUrl + this.getUserByNameUrl + username);
     }

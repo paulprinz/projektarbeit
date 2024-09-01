@@ -1,4 +1,4 @@
-/* LOGIN */
+/* Login */
 #loginbox {
     width: 400px;
     height: auto; 
@@ -92,3 +92,8 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
     border-radius: 8px; 
 }
+
+/* Spacer */
+.spacer {
+    height: 20px; 
+}  
