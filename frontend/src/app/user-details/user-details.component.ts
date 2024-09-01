@@ -5,6 +5,8 @@ import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { UserService } from '../../shared/services/User.service';
 import { UserDetails } from '../../shared/models/UserDetails.model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PasswordChangeDto } from '../../shared/models/PasswordChangeDto.model';
 
 @Component({
   selector: 'app-user-details',
@@ -19,13 +21,21 @@ export class UserDetailsComponent implements OnInit {
   userDetails: UserDetails | undefined;
   selectedUserId: number | undefined;
   userId: number | undefined;
+  currentUserId: number | undefined;
   username: string | undefined;
+
+  passwordForm: FormGroup = this.fb.group({
+    oldPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmNewPassword: ['', Validators.required],
+  });
 
   constructor(
     private snackBar: MatSnackBar,
     private fileService: FileService,
     private userService: UserService,
     private route: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -139,6 +149,46 @@ export class UserDetailsComponent implements OnInit {
         }
       );
     }
+  }
+
+  changePassword(): void {
+    // Gets the form values
+    const oldPassword = this.passwordForm.value.oldPassword;
+    const newPassword = this.passwordForm.value.newPassword;
+    const confirmNewPassword = this.passwordForm.value.confirmNewPassword;
+
+    // Check if the new password and confirm new password match
+    if (newPassword !== confirmNewPassword) {
+      this.openSnackBar('New password and confirm new password do not match.');
+      return;
+    }
+
+    // Check if the user typed the same password as his old password
+    if(oldPassword == newPassword) {
+      this.openSnackBar('Old password can not be new password!');
+      return;
+    }
+
+    const passwordDto: PasswordChangeDto = {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    
+    // Makes an API call to update the user's password
+    this.userService.changePassword(passwordDto).subscribe({
+      next: (response) => {
+        this.openSnackBar('Password updated successfully.');
+        // Clears the form values
+        this.passwordForm.reset();
+      },
+      error: (error) => {
+        this.openSnackBar(error.error);
+      }
+    });
+  }
+
+  isCurrentUser(): boolean {
+    return this.userId === this.;
   }
 
   openSnackBar(message: string): void {

@@ -1,5 +1,6 @@
 package at.technikum.springrestbackend.controller;
 
+import at.technikum.springrestbackend.dto.PasswordChangeDto;
 import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
@@ -71,6 +72,30 @@ public class UserController {
             return ResponseEntity.ok(userService.convertToDto(updatedUser));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody PasswordChangeDto passwordChangeDto) {
+
+        try {
+            boolean success = userService.changePassword(userPrincipal.getId(),
+                    passwordChangeDto.getOldPassword(),
+                    passwordChangeDto.getNewPassword());
+            if (success) {
+                return ResponseEntity.ok(passwordChangeDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Old password is incorrect");
+            }
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred");
         }
     }
 

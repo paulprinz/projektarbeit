@@ -46,5 +46,47 @@
       </div>
     </mat-card-actions>
   </mat-card>
+  <hr>
+  <!-- Password Change Section -->
+  <mat-card id="user-details-box" *ngIf="userId">
+    <mat-card-content>
+
+      <form [formGroup]="passwordForm" #formDirective="ngForm">
+
+        <div class="row justify-content-center">
+          <mat-form-field class="inputFields">
+            <mat-label>Old Password</mat-label>
+            <input matInput [type]="'password'" id="input-old-password" formControlName="oldPassword" required/>
+          </mat-form-field>
+        </div>
+
+        <div class="row justify-content-center">
+          <mat-form-field class="inputFields">
+            <mat-label>New Password</mat-label>
+            <input matInput [type]="'password'" id="input-new-password" formControlName="newPassword" required/>
+          </mat-form-field>
+        </div>
+
+        <div class="row justify-content-center">
+            <mat-form-field class="inputFields">
+              <mat-label>Confirm New Password</mat-label>
+              <input matInput [type]="'password'" id="confirm-new-password" formControlName="confirmNewPassword" required/>
+            </mat-form-field>
+        </div>
+
+
+      </form>
+
+    </mat-card-content>
+      <!-- Save Button -->
+      <mat-card-actions class="d-flex justify-content-center">
+        <div class="d-grid gap-2 col-4 mx-auto">
+          <button mat-button (click)="changePassword()">
+            Save
+          </button>
+        </div>
+      </mat-card-actions>
+  </mat-card>
+
 </div>
   
