@@ -9,7 +9,9 @@ import { LoginService } from '../login/login.service';
 export class HomeComponent implements OnInit {
 
   username: any;
-  
+  userId: any;
+  userPrivileges!: any[] | null;
+
   constructor(
     private tokenService: TokenService,
     public loginService: LoginService
@@ -17,6 +19,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.tokenService.getUsername();
+    this.userId = this.tokenService.getUserId();
+    this.userPrivileges = this.tokenService.getUserPrivileges();
   }
 
 }
