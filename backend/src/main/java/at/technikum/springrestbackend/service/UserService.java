@@ -159,6 +159,29 @@ public class UserService {
     }
 
     /**
+     * Changes the password for a given user
+     * @param userId of the user
+     * @param oldPassword the current password of the user that needs to be verified.
+     * @param newPassword the new password to be set for the user.
+     * @return true if the password was successfully changed,
+     * false if the old password does not match the current password.
+     * @throws EntityNotFoundException if the user cannot be found.
+     */
+    public boolean changePassword(Long userId, String oldPassword, String newPassword)
+        throws EntityNotFoundException {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        var currentPassword = user.getPassword();
+        if (!passwordEncoder.matches(oldPassword, currentPassword)) {
+            return false;
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
+
+    /**
      * Converts a User entity to a UserDto.
      *
      * @param user the user entity to be converted.

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserDetails } from '../models/UserDetails.model';
+import { PasswordChangeDto } from '../models/PasswordChangeDto.model';
 
 
 @Injectable({
@@ -18,7 +19,9 @@ export class UserService {
     private getUserByNameUrl = '/get-user-by-name/';
     private getUserByIdUrl = '/get/';
     private getMyUserUrl = '/me';
+    private changePasswordUrl = '/change-password';
 
+    
     getUserDetailsByName(username: string): Observable<UserDetails> {
         return this.http.get<UserDetails>(this.apiUrl + this.getUserByNameUrl + username);
     }
@@ -29,6 +32,10 @@ export class UserService {
 
     getMyProfile(): Observable<UserDetails> {
         return this.http.get<UserDetails>(this.apiUrl + this.getMyUserUrl);
+    }
+
+    changePassword(passWordChangeDto: PasswordChangeDto): Observable<any> {
+        return this.http.put<any>(this.apiUrl + this.changePasswordUrl, passWordChangeDto);
     }
 
 }
