@@ -61,6 +61,17 @@ export class TokenService {
         }
         return this.jwtHelper.decodeToken().roles as string[];
     }
+
+    isAdmin(): boolean {
+    
+        const roles = this.getUserPrivileges();
+        
+        if (!roles) return false;
+
+        return roles.includes('ROLE_ADMIN');
+
+    }
+
     
 }
 

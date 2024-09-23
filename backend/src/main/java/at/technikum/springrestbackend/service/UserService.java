@@ -84,7 +84,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setCountry(userDto.getCountry());
             user.setFollowerCount(userDto.getFollowerCount());
-            user.setStatus(userDto.isStatus());
+            user.setActive(userDto.isStatus());
 
             return userRepository.save(user);
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class UserService {
             existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
             existingUser.setCountry(userDto.getCountry());
             existingUser.setFollowerCount(userDto.getFollowerCount());
-            existingUser.setStatus(userDto.isStatus());
+            existingUser.setActive(userDto.isStatus());
 
             return userRepository.save(existingUser);
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class UserService {
                 user.getPassword(),
                 user.getCountry(),
                 user.getFollowerCount(),
-                user.isStatus()
+                user.isActive()
         );
     }
 
@@ -215,7 +215,7 @@ public class UserService {
                 user.getBirthDate(),
                 user.getCountry(),
                 user.getFollowerCount(),
-                user.isStatus()
+                user.isActive()
         );
     }
 

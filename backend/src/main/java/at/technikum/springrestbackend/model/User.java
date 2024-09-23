@@ -33,7 +33,7 @@ public class User {
 
     private int followerCount;
 
-    private boolean status;
+    private boolean active;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Picture picture;
