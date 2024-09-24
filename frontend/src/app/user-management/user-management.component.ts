@@ -25,26 +25,26 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   pageIndex = 0; 
   pageEvent: PageEvent | undefined;
   filter = '';
-  sortField = 'lastName';
+  sortField = 'username';
   sortDirection = 'asc';
   sort = 'ascending';
 
   pageSizeOptions: number[] | undefined;
 
-  displayedUsersColumns: string[] = ['userName', 'active'];
+  displayedUsersColumns: string[] = ['username', 'active', 'email', 'role', 'birthDate', 'country', 'actions'];
   
   userId: number | undefined;
   userDetails: UserDto | undefined = {} as UserDto;
-  users: UserDto[] | undefined;
-  availableUsers: MatTableDataSource<UserDto> = new MatTableDataSource<UserDto>([]);
+  users: UserDetails[] | undefined;
+  availableUsers: MatTableDataSource<UserDetails> = new MatTableDataSource<UserDetails>([]);
   filteredUsers: UserDto[] = [];
   active: boolean = true;
 
   @ViewChild(MatSort) usersSort: MatSort | undefined;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private userService: UserService,
-    private paginator: MatPaginator,
     public snackBar: MatSnackBar,
     public router: Router,
     private dialog: MatDialog,
@@ -119,12 +119,39 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     this.loadUsers();
   }
 
-  navigateToSelectedUser(selectedUserId: number) {
-    if (selectedUserId === -1) {
-      this.router.navigateByUrl('userDetails/create');
-    } else {
-      this.router.navigate(['/userDetails', selectedUserId]);
+
+  deleteUser(userId: number) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(userId).subscribe({
+        next: () => {
+          this.openSnackBar('User deleted successfully');
+          this.loadUsers(); // Reload the list after deletion
+        },
+        error: (error) => {
+          console.error('Error deleting user:', error);
+          this.openSnackBar('Failed to delete user');
+        }
+      });
     }
+  }
+  
+  changeActivation(user: UserDetails) {
+    if (user.active) {
+      user.active = false;
+    } else {
+      user.active = true;
+    }
+    this.userService.updateUser(user).subscribe({
+      next: () => {
+        this.openSnackBar('User updated successfully');
+        this.loadUsers(); 
+      },
+      error: (error) => {
+        console.error('Error updating user:', error);
+        this.openSnackBar('Failed to inactivate user');
+      }
+    });
+    
   }
 
 

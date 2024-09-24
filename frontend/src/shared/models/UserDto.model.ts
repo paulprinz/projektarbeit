@@ -7,5 +7,5 @@ export interface UserDto{
     birthDate: Date;
     country: string;
     followerCount: number;
-    status: boolean;
+    active: boolean;
 }

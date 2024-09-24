@@ -1,54 +1,69 @@
-<div class="position-absolute top-50 start-50 translate-middle">
-  <mat-card id="user-details-box">
-    <mat-card-header  class="d-flex flex-wrap justify-content-between">
-      <mat-card-title class="me-2" playwrightId="titleUserManagment">User Management </mat-card-title>
-      <mat-slide-toggle [(ngModel)]="active" (change)="updateFilteredUsers()"><span class="fs-6 fw-lighter" playwrightId="toggleActiveUsers">Only
-        active
-        users</span></mat-slide-toggle>
-        <div class="d-flex flex-nowrap">
-      <mat-form-field class="search">
-        <mat-label>Filter</mat-label>
-        <input matInput [(ngModel)]="filter" (keyup.enter)="applyFilter()" #input playwrightId="inputFilterUserManagement">
-      </mat-form-field>
-      <button class="mt-2" mat-icon-button (click)="applyFilter()" playwrightId="buttonFilterForm" >
-          <mat-icon class="material-symbols-rounded" style="font-size: 2.5rem;"
-              matTooltip="Apply filter" aria-label="Apply filter">
-              filter_alt
-          </mat-icon>
-      </button>
-        </div>
-    </mat-card-header>
-    <mat-card-content>
-      <table class="table table-striped table-hover" mat-table [dataSource]="availableUsers" matSort (matSortChange)="sortData($event)">
-        <ng-container matColumnDef="userId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by userId"> User Name
-          </th>
-          <td mat-cell *matCellDef="let user; index as j"> {{ user.userId }} </td>
-        </ng-container>
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by firstName"> First Name
-          </th>
-          <td mat-cell *matCellDef="let user; index as j" > {{ user.firstName }} </td>
-        </ng-container>
-        <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by lastName"> Last Name
-          </th>
-          <td mat-cell *matCellDef="let user; index as j" > {{ user.lastName }} </td>
-        </ng-container>
-        <ng-container matColumnDef="active">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by active">
-            Active
-          </th>
-          <td mat-cell *matCellDef="let user; index as j"> {{ user.active }} </td>
-        </ng-container>
- <!--       <tr mat-header-row *matHeaderRowDef="displayedUsersColumns"></tr>
-        <tr mat-row *matRowDef="let user; columns: displayedUsersColumns;" (click)="navigateToSelectedUser(user.id)"> 
-        </tr> -->
-      </table>
-      <mat-paginator class="bottom-space" #paginator [length]="length" [pageSize]="25"
-        (page)="handlePageEvent($event)">
-      </mat-paginator>
-    </mat-card-content>
-  </mat-card>
+<div class="position-relative w-100"> <!-- Use relative positioning -->
+  <div class="d-flex flex-wrap">
+    <label class="switch me-3">
+      <input type="checkbox" [(ngModel)]="active" (change)="updateFilteredUsers()">
+      <span class="slider"></span>
+      <span class="fw-lighter">Only active users</span>
+    </label>
+
+    <mat-form-field class="search">
+      <mat-label>Filter</mat-label>
+      <input matInput [(ngModel)]="filter" (keyup.enter)="applyFilter()" #input>
+    </mat-form-field>
+  </div>
+
+  <mat-card-content>
+    <table class="table table-striped table-hover w-100" mat-table [dataSource]="availableUsers" matSort (matSortChange)="sortData($event)">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by username">User Name</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by active">Active</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.active }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">Email</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">Role</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.role }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by birth date">Birth Date</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.birthDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by country">Country</th>
+        <td mat-cell *matCellDef="let user; index as j">{{ user.country }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let user">
+          
+          <div *ngIf="user.active">
+            <button mat-button color="warn" (click)="deleteUser(user.id)">Delete</button>
+            <button  mat-button color="primary" (click)="changeActivation(user)">Inactivate</button>
+          </div>
+          <div *ngIf="!user.active">
+            <button mat-button color="warn" (click)="deleteUser(user.id)">Delete</button>
+            <button  mat-button color="primary" (click)="changeActivation(user)">Activate</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedUsersColumns"></tr>
+      <tr mat-row *matRowDef="let user; columns: displayedUsersColumns;"></tr>
+    </table>
+
+    <mat-paginator class="bottom-space" #paginator [length]="length" [pageSize]="5" (page)="handlePageEvent($event)">
+    </mat-paginator>
+  </mat-card-content>
 </div>
-  

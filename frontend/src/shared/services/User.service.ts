@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { UserDetails } from '../models/UserDetails.model';
 import { PasswordChangeDto } from '../models/PasswordChangeDto.model';
 import { PagedResponseDto } from '../models/PagedResponseDTO.model';
-import { UserDto } from '../models/UserDto.model';
 
 
 @Injectable({
@@ -12,7 +11,7 @@ import { UserDto } from '../models/UserDto.model';
 })
 
 export class UserService {
-  
+
     constructor(
         private http: HttpClient,
     ) {}
@@ -22,7 +21,9 @@ export class UserService {
     private getUserByIdUrl = '/get/';
     private getMyUserUrl = '/me';
     private changePasswordUrl = '/change-password';
-    private allUsersUrl = '/api/users/get-all';
+    private allUsersUrl = '/get-all';
+    private deleteUserUrl = '/delete/'
+    private updateDetailsUrl = '/updateDetails'
 
 
     
@@ -42,17 +43,25 @@ export class UserService {
         return this.http.put<any>(this.apiUrl + this.changePasswordUrl, passWordChangeDto);
     }
 
-    getUsersWithFilterSort(pageIndex: number, active: boolean, filter: string, sort: string): Observable<PagedResponseDto<UserDto>> {
+    getUsersWithFilterSort(pageIndex: number, active: boolean, filter: string, sort: string): Observable<PagedResponseDto<UserDetails>> {
         let params = new HttpParams()
               .set('page', pageIndex)
-              .set('pageSize', 25)
+              .set('pageSize', 5)
               .set('active', active)
               .set('sort', sort);
         if (filter) {
           params = params.set('filter', filter);
         }
         
-        return this.http.get<PagedResponseDto<UserDto>>(this.apiUrl + this.allUsersUrl, { params });
+        return this.http.get<PagedResponseDto<UserDetails>>(this.apiUrl + this.allUsersUrl, { params });
       }
 
+    deleteUser (id: number) {
+        return this.http.delete(this.apiUrl + this.deleteUserUrl + id)
+    }
+
+
+    updateUser(user: UserDetails) {
+        return this.http.put(this.apiUrl + this.updateDetailsUrl, user);
+    }
 }

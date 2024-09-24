@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
-// TODO - annotations
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,20 +17,28 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "user_name")
     private String username;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "role")
     private String role;
 
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "follower_count")
     private int followerCount;
 
+    @Column(name = "active")
     private boolean active;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
