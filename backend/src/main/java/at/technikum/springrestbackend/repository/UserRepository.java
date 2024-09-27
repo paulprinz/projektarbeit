@@ -1,7 +1,6 @@
 package at.technikum.springrestbackend.repository;
 
 import at.technikum.springrestbackend.dto.UserDetailsDto;
-import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.username = ?1")
     Optional<User> findByName(String username);
 
-
-
-
-
     @Query(" SELECT DISTINCT new at.technikum.springrestbackend.dto.UserDetailsDto "
             + " ( u.id AS id, "
             + "u.username AS username, "
@@ -34,8 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + " WHERE "
             + " u.active = TRUE ")
     Page<UserDetailsDto> findAllByActivePageable(Pageable pageable);
-
-
 
     @Query(" SELECT DISTINCT new at.technikum.springrestbackend.dto.UserDetailsDto "
             + " ( u.id AS id, "
@@ -65,8 +58,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + " AND (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country, ' ', u.followerCount) LIKE %:filter%) ")
     Page<UserDetailsDto> findAllByActiveWithFilterPageable(Pageable pageable, @Param("filter") String filter);
 
-
-
     @Query(" SELECT DISTINCT new at.technikum.springrestbackend.dto.UserDetailsDto "
             + " ( u.id AS id, "
             + "u.username AS username, "
@@ -79,9 +70,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + " FROM User u "
             + " WHERE (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country, ' ', u.followerCount, ' ', u.active) LIKE %:filter%) ")
     Page<UserDetailsDto> findAllWithFilterPageable(Pageable pageable, @Param("filter") String filter);
-
-
-
 
 }
 

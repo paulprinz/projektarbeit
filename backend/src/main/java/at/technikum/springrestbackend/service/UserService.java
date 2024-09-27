@@ -7,7 +7,7 @@ import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.PictureRepository;
 import at.technikum.springrestbackend.repository.UserRepository;
-import at.technikum.springrestbackend.util.PageableFactory;
+import at.technikum.springrestbackend.utils.PageableFactory;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -210,6 +210,45 @@ public class UserService {
     }
 
     /**
+     * Returns all Users.
+     *
+     * @param page page to return
+     * @param size size of page
+     * @param active active
+     * @param sort sort parameter
+     *
+     * @return all users.
+     */
+    public Page<UserDetailsDto> findAllUsers(int page, int size, boolean active, String sort) {
+        Pageable pageable = PageableFactory.create(page, size, sort);
+        if (active) {
+            return userRepository.findAllByActivePageable(pageable);
+        } else {
+            return userRepository.findAllPageable(pageable);
+        }
+    }
+
+    /**
+     * Find all users with a filter.
+     *
+     * @param page A Page.
+     * @param size The Page size.
+     * @param active Whether user is active.
+     * @param filter The attribute to filter for.
+     * @param sort The attribute to sort for.
+     * @return Page of PeopleUserTableEntryDto
+     **/
+    public Page<UserDetailsDto> findAllUsersWithFilter(int page, int size, boolean active, String filter,
+                                                       String sort) {
+        Pageable pageable = PageableFactory.create(page, size, sort);
+        if (active) {
+            return userRepository.findAllByActiveWithFilterPageable(pageable, filter);
+        } else {
+            return userRepository.findAllWithFilterPageable(pageable, filter);
+        }
+    }
+
+    /**
      * Converts a User entity to a UserDto.
      *
      * @param user the user entity to be converted.
@@ -247,45 +286,4 @@ public class UserService {
         );
     }
 
-
-
-    /**
-     * Returns all Users.
-     *
-     * @param page      page to return
-     * @param size      size of page
-     * @param active    active
-     * @param sort      sort parameter
-     *
-     * @return all users.
-     */
-    public Page<UserDetailsDto> findAllUsers(int page, int size, boolean active, String sort) {
-        Pageable pageable = PageableFactory.create(page, size, sort);
-        if (active) {
-            return userRepository.findAllByActivePageable(pageable);
-        } else {
-            return userRepository.findAllPageable(pageable);
-        }
-    }
-
-    /**
-     * Find all users with a filter.
-     *
-     * @param page A Page.
-     * @param size The Page size.
-     * @param active Whether user is active.
-     * @param filter The attribute to filter for.
-     * @param sort The attribute to sort for.
-     * @return Page of PeopleUserTableEntryDto
-     **/
-
-    public Page<UserDetailsDto> findAllUsersWithFilter(int page, int size, boolean active, String filter,
-                                                                String sort) {
-        Pageable pageable = PageableFactory.create(page, size, sort);
-        if (active) {
-            return userRepository.findAllByActiveWithFilterPageable(pageable, filter);
-        } else {
-            return userRepository.findAllWithFilterPageable(pageable, filter);
-        }
-    }
 }

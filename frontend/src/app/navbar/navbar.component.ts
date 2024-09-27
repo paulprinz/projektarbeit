@@ -22,9 +22,6 @@ export class NavbarComponent implements OnInit {
     this.username = this.tokenService.getUsername();
   }
 
-
-
-
   // Navigate to Home
   navigateToHome() {
     this.router.navigateByUrl('/');

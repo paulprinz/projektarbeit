@@ -63,16 +63,13 @@ export class TokenService {
     }
 
     isAdmin(): boolean {
-    
         const roles = this.getUserPrivileges();
-        
-        if (!roles) return false;
-
+        if (!roles) {
+            return false;
+        }
         return roles.includes('ROLE_ADMIN');
-
     }
-
-    
+  
 }
 
 /**

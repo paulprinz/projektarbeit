@@ -1,18 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FileService } from '../../shared/services/File.service';
-import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { UserService } from '../../shared/services/User.service';
 import { UserDetails } from '../../shared/models/UserDetails.model';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDto } from '../../shared/models/UserDto.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-
 
 
 @Component({
@@ -47,18 +41,13 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     public snackBar: MatSnackBar,
     public router: Router,
-    private dialog: MatDialog,
   ) { }
-
-
   
   ngAfterViewInit(): void {
-      this.availableUsers.paginator = this.paginator;
+    this.availableUsers.paginator = this.paginator;
   }
 
   ngOnInit(): void {
-
-    
     this.loadUsers();
   }
 
@@ -77,48 +66,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.error('Error loading users:', error);
     }
-
   }
-
-  sortData(sort: any) {
-    this.sortField = sort.active;
-    if (sort.direction.length === 0 && this.sortDirection === 'asc') {
-      sort.direction = 'desc';
-    } else if (sort.direction.length === 0 && this.sortDirection === 'desc') {
-      sort.direction = 'asc';
-    } 
-    this.sortDirection = sort.direction;
-    this.loadUsers();
-  }
-
-
-   //Filter active/inactive
-  updateFilteredUsers() {
-    this.loadUsers();
-  }
-
-  
-  applyFilter() {
-    this.pageIndex = 0;
-    this.paginator.pageIndex = 0;
-    this.loadUsers();
-  }
-
-  openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000, 
-      horizontalPosition: 'start', 
-      verticalPosition: 'bottom' 
-    });
-  }
-
-  handlePageEvent(event: PageEvent) {
-    this.pageEvent = event;
-    this.length = event.length;
-    this.pageIndex = event.pageIndex;
-    this.loadUsers();
-  }
-
 
   deleteUser(userId: number) {
     if (confirm('Are you sure you want to delete this user?')) {
@@ -151,8 +99,43 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Failed to inactivate user');
       }
     });
-    
   }
 
+  sortData(sort: any) {
+    this.sortField = sort.active;
+    if (sort.direction.length === 0 && this.sortDirection === 'asc') {
+      sort.direction = 'desc';
+    } else if (sort.direction.length === 0 && this.sortDirection === 'desc') {
+      sort.direction = 'asc';
+    } 
+    this.sortDirection = sort.direction;
+    this.loadUsers();
+  }
+
+  //Filter active/inactive
+  updateFilteredUsers() {
+    this.loadUsers();
+  }
+
+  applyFilter() {
+    this.pageIndex = 0;
+    this.paginator.pageIndex = 0;
+    this.loadUsers();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.pageEvent = event;
+    this.length = event.length;
+    this.pageIndex = event.pageIndex;
+    this.loadUsers();
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, 
+      horizontalPosition: 'start', 
+      verticalPosition: 'bottom' 
+    });
+  }
 
 }

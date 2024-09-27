@@ -1,4 +1,4 @@
-package at.technikum.springrestbackend.util;
+package at.technikum.springrestbackend.utils;
 
 import java.util.ArrayList;
 import java.util.List;

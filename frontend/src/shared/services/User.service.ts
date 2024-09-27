@@ -23,10 +23,9 @@ export class UserService {
     private changePasswordUrl = '/change-password';
     private allUsersUrl = '/get-all';
     private deleteUserUrl = '/delete/'
-    private updateDetailsUrl = '/updateDetails'
+    private updateDetailsUrl = '/update-details'
 
 
-    
     getUserDetailsByName(username: string): Observable<UserDetails> {
         return this.http.get<UserDetails>(this.apiUrl + this.getUserByNameUrl + username);
     }
@@ -60,8 +59,8 @@ export class UserService {
         return this.http.delete(this.apiUrl + this.deleteUserUrl + id)
     }
 
-
     updateUser(user: UserDetails) {
         return this.http.put(this.apiUrl + this.updateDetailsUrl, user);
     }
+
 }

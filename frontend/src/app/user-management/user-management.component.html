@@ -1,17 +1,18 @@
 <div class="position-relative w-100"> <!-- Use relative positioning -->
   <div class="d-flex flex-wrap">
     <label class="switch me-3">
+      <!-- Only Active Users -->
       <input type="checkbox" [(ngModel)]="active" (change)="updateFilteredUsers()">
       <span class="slider"></span>
       <span class="fw-lighter">Only active users</span>
     </label>
-
+    <!-- Filter -->
     <mat-form-field class="search">
       <mat-label>Filter</mat-label>
       <input matInput [(ngModel)]="filter" (keyup.enter)="applyFilter()" #input>
     </mat-form-field>
   </div>
-
+  <!-- Table -->
   <mat-card-content>
     <table class="table table-striped table-hover w-100" mat-table [dataSource]="availableUsers" matSort (matSortChange)="sortData($event)">
       <ng-container matColumnDef="username">
@@ -43,7 +44,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by country">Country</th>
         <td mat-cell *matCellDef="let user; index as j">{{ user.country }}</td>
       </ng-container>
-
+      <!-- Action Buttons -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let user">
@@ -62,7 +63,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedUsersColumns"></tr>
       <tr mat-row *matRowDef="let user; columns: displayedUsersColumns;"></tr>
     </table>
-
+    <!-- Paginator -->
     <mat-paginator class="bottom-space" #paginator [length]="length" [pageSize]="5" (page)="handlePageEvent($event)">
     </mat-paginator>
   </mat-card-content>

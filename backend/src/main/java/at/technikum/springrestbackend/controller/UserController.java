@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -23,7 +22,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
 
     @GetMapping("/get-all")
     public ResponseEntity<PagedResponseDto<UserDetailsDto>> getAllUsers(
@@ -43,8 +41,6 @@ public class UserController {
                     .findAllUsersWithFilter(page, pageSize, active, filter, sort);
         }
 
-        //System.out.println(userPage.getContent().get(0));
-
         PagedResponseDto<UserDetailsDto> response = new PagedResponseDto<>(
                 userPage.getContent(),
                 userPage.getNumber(),
@@ -54,14 +50,6 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
-
-
-
-
-
-
-
-
 
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
@@ -110,7 +98,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/updateDetails")
+    @PutMapping("/update-details")
     public ResponseEntity<UserDetailsDto> updateDetailsById(@RequestBody UserDetailsDto userDto) {
         try {
             User updatedUser = userService.updateUserDetails(userDto);

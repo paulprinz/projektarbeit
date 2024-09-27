@@ -21,12 +21,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    // canActivateChild: [AuthGuard]
-    /* For components inside the APP
-    children: [
-
-    ]
-    */
   },
   {
     path: 'me',
