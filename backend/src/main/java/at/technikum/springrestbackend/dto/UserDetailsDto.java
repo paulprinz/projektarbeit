@@ -23,7 +23,7 @@ public class UserDetailsDto {
 
     private int followerCount;
 
-    private boolean status;
+    private boolean active;
 
     /**
      * Constructor
@@ -36,7 +36,7 @@ public class UserDetailsDto {
             LocalDate birthDate,
             String country,
             int followerCount,
-            boolean status
+            boolean active
     ) {
         this.id = id;
         this.username = username;
@@ -45,7 +45,7 @@ public class UserDetailsDto {
         this.birthDate = birthDate;
         this.country = country;
         this.followerCount = followerCount;
-        this.status = status;
+        this.active = active;
     }
 
 }

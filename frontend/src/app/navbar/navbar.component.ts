@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public loginService: LoginService,
-    private tokenService: TokenService,
+    public tokenService: TokenService,
     private router: Router,
   ) { }
 
@@ -21,6 +21,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.username = this.tokenService.getUsername();
   }
+
+
+
 
   // Navigate to Home
   navigateToHome() {
@@ -37,8 +40,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  // Navigate to MyProfile
   navigateToMyProfile() {
     this.router.navigateByUrl('/me');
+  }
+
+  // Navigate to UserManagement
+  navigateToUserManagement() {
+    this.router.navigateByUrl('/user-management');
   }
 
   logout() {

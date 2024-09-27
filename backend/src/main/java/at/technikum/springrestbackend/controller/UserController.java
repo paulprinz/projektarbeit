@@ -1,5 +1,6 @@
 package at.technikum.springrestbackend.controller;
 
+import at.technikum.springrestbackend.dto.PagedResponseDto;
 import at.technikum.springrestbackend.dto.PasswordChangeDto;
 import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
@@ -8,6 +9,7 @@ import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.security.principal.UserPrincipal;
 import at.technikum.springrestbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,9 +26,42 @@ public class UserController {
 
 
     @GetMapping("/get-all")
-    public List<UserDto> getAllUsers(){
-        return userService.findAll().stream().map(userService::convertToDto).toList();
+    public ResponseEntity<PagedResponseDto<UserDetailsDto>> getAllUsers(
+            @RequestParam(name = "pageSize", defaultValue = "50", required = false) int pageSize,
+            @RequestParam(name = "page", required = true) int page,
+            @RequestParam(defaultValue = "username,asc") String sort,
+            @RequestParam(required = false) String filter,
+            @RequestParam(name = "active", defaultValue = "false", required = false) boolean active) {
+
+
+        Page<UserDetailsDto> userPage;
+        if (filter == null) {
+            // get all users - pageable
+            userPage = userService.findAllUsers(page, pageSize, active, sort);
+        } else {
+            userPage = userService
+                    .findAllUsersWithFilter(page, pageSize, active, filter, sort);
+        }
+
+        //System.out.println(userPage.getContent().get(0));
+
+        PagedResponseDto<UserDetailsDto> response = new PagedResponseDto<>(
+                userPage.getContent(),
+                userPage.getNumber(),
+                userPage.getTotalElements(),
+                userPage.getTotalPages()
+        );
+
+        return ResponseEntity.ok(response);
     }
+
+
+
+
+
+
+
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
@@ -70,6 +105,16 @@ public class UserController {
         try {
             User updatedUser = userService.updateUser(userDto);
             return ResponseEntity.ok(userService.convertToDto(updatedUser));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/updateDetails")
+    public ResponseEntity<UserDetailsDto> updateDetailsById(@RequestBody UserDetailsDto userDto) {
+        try {
+            User updatedUser = userService.updateUserDetails(userDto);
+            return ResponseEntity.ok(userService.convertToUserDetailsDto(updatedUser));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

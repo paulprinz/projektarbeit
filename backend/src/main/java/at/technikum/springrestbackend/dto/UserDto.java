@@ -24,7 +24,7 @@ public class UserDto {
 
     private int followerCount;
 
-    private boolean status;
+    private boolean active;
 
 
     public UserDto(
@@ -36,7 +36,7 @@ public class UserDto {
             String password,
             String country,
             int followerCount,
-            boolean status
+            boolean active
     ) {
         this.id = id;
         this.username = username;
@@ -46,7 +46,7 @@ public class UserDto {
         this.password = password;
         this.country = country;
         this.followerCount = followerCount;
-        this.status = status;
+        this.active = active;
     }
 
 }

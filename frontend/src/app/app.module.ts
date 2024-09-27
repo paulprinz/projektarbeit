@@ -20,7 +20,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -30,12 +34,15 @@ import {MatMenuModule} from '@angular/material/menu';
     RegisterComponent,
     NavbarComponent,
     UserDetailsComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
+    MatTableModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    MatPaginatorModule,
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,

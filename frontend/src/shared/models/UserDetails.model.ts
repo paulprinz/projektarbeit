@@ -6,5 +6,5 @@ export interface UserDetails {
     birthDate: Date;
     country: string;
     followerCount: number;
-    status: boolean;
+    active: boolean;
 }

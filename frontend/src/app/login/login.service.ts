@@ -112,8 +112,8 @@ export class LoginService {
   /**
    * Creates a new user with the provided username and password
   */
-  createUser(username: string, password: string, email: string, role: string, birthDate: Date, country: string, followerCount: number, status: boolean): Promise<any> {
-    const userDto: UserDto = { username, password, email, role, birthDate, country, followerCount, status };
+  createUser(username: string, password: string, email: string, role: string, birthDate: Date, country: string, followerCount: number, active: boolean): Promise<any> {
+    const userDto: UserDto = { username, password, email, role, birthDate, country, followerCount, active };
     const url = this.apiUrl + this.loginURL + '/create';
 
     try {
