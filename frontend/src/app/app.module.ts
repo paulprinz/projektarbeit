@@ -24,7 +24,8 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import {MatMenuModule} from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,8 @@ import { MatTableModule } from '@angular/material/table';
     AppRoutingModule,
     HttpClientModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
+    MatSelectModule,
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,

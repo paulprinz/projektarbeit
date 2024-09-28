@@ -5,8 +5,10 @@ import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { UserService } from '../../shared/services/User.service';
 import { UserDetails } from '../../shared/models/UserDetails.model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PasswordChangeDto } from '../../shared/models/PasswordChangeDto.model';
+import { TokenService } from '../login/token.service';
+import { delay, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-user-details',
@@ -23,6 +25,19 @@ export class UserDetailsComponent implements OnInit {
   userId: number | undefined;
   username: string | undefined;
   userIdParam: string | null | undefined;
+  roles: string[] = ['ROLE_ADMIN', 'ROLE_USER'];
+
+  // User profile form
+  userProfileForm: FormGroup = this.fb.group({
+    id: ['', Validators.required],
+    username:  ['', Validators.required],
+    email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")], [this.asyncEmailValidator]],
+    role: ['', Validators.required],
+    birthDate: ['', Validators.required],
+    country: ['', [Validators.required, Validators.pattern(/^[^\d]*$/)]],
+    followerCount:  ['', Validators.required],
+    active:  ['', Validators.required],
+  });
 
   // Password change
   passwordForm: FormGroup = this.fb.group({
@@ -37,6 +52,7 @@ export class UserDetailsComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    public tokenService: TokenService,
   ) { }
 
   ngOnInit(): void {
@@ -55,34 +71,42 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  loadUserDetailsById() {
+  async loadUserDetailsById(): Promise<void> {
     if (this.selectedUserId) {
-      this.userService.getUserDetailsById(this.selectedUserId).subscribe(
-        (data: UserDetails) => {
-          this.userDetails = data;
-          this.userId = data.id;
-          this.username = data.username;
-          this.loadAvatar();
-        },
-        error => {
-          this.openSnackBar('Error loading user details.');
-        }
-      );
+      return new Promise((resolve, reject) => {
+        this.userService.getUserDetailsById(this.selectedUserId!).subscribe(
+          (data: UserDetails) => {
+            this.userDetails = data;
+            this.userId = data.id;
+            this.loadAvatar();
+            this.userProfileForm.patchValue(data);
+            resolve();
+          },
+          error => {
+            this.openSnackBar('Error loading user details.');
+            reject(error);
+          }
+        );
+      });
     }
   }
 
-  loadMyUserDetails() {
-    this.userService.getMyProfile().subscribe(
-      (data: UserDetails) => {
-        this.userDetails = data;
-        this.userId = data.id;
-        this.username = data.username;
-        this.loadAvatar();
-      },
-      error => {
-        this.openSnackBar('Error loading my profile.');
-      }
-    );
+  async loadMyUserDetails(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.userService.getMyProfile().subscribe(
+        (data: UserDetails) => {
+          this.userDetails = data;
+          this.userId = data.id;
+          this.loadAvatar();
+          this.userProfileForm.patchValue(data);
+          resolve();
+        },
+        error => {
+          this.openSnackBar('Error loading my profile.');
+          reject();
+        }
+      );
+    });
   }
   
   // Avatar
@@ -127,14 +151,7 @@ export class UserDetailsComponent implements OnInit {
 
   uploadAvatar(): void {
     if (this.selectedFile) {
-      this.fileService.uploadAvatar(this.selectedFile).subscribe(
-        response => {
-          this.openSnackBar('Avatar uploaded successfully!');
-        },
-        error => {
-          this.openSnackBar('Error uploading avatar.');
-        }
-      );
+      this.fileService.uploadAvatar(this.selectedFile).subscribe();
     }
   }
 
@@ -142,14 +159,37 @@ export class UserDetailsComponent implements OnInit {
     if (this.userDetails?.id) {
       this.fileService.deleteAvatar(this.userDetails.id).subscribe(
         () => {
-          this.openSnackBar('File deleted successfully');
+          this.openSnackBar('Avatar deleted successfully');
           this.fileUrl = '';
         },
         error => {
-          this.openSnackBar('Error deleting file!');
+          this.openSnackBar('Error deleting avatar!');
         }
       );
     }
+  }
+
+  updateUser(): void {
+    const updatedData: UserDetails = this.userProfileForm.value;
+
+    if(this.userProfileForm.valid){
+      this.userService.updateUser(updatedData).subscribe({
+        next: () => {
+          this.openSnackBar(this.userDetails?.username + ' updated successfully!');
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+          this.openSnackBar('Failed to update user');
+        }
+      });
+    } 
+  }
+
+  saveChanges(): void {
+    if(this.selectedFile){
+      this.uploadAvatar()
+    }
+    this.updateUser();
   }
 
   changePassword(): void {
@@ -186,6 +226,20 @@ export class UserDetailsComponent implements OnInit {
         this.openSnackBar(error.error);
       }
     });
+  }
+
+  asyncEmailValidator(control: AbstractControl): Observable<{ [key: string]: any } | null> {
+    return of(control.value).pipe(
+      delay(2000),
+      map(value => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!regex.test(value)) {
+          return { invalidEmail: true };
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
   openSnackBar(message: string): void {
