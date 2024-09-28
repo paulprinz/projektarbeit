@@ -1,23 +1,23 @@
-<!-- LOGIN -->
-<div class="position-absolute top-50 start-50 translate-middle">
-  <mat-card id="loginbox">
-    &nbsp;
+<div id="embeddedViewStyle" class="content-wrapper">
+  <mat-card id="login-and-register-box" class="position-absolute top-50 start-50 translate-middle">
+    <!-- Title -->
     <mat-card-title class="d-flex justify-content-center">
       Login
     </mat-card-title>
+    <!-- Form -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card-content>
         <div class="d-flex justify-content-center">
-          <!-- USERNAME -->
+          <!-- Username -->
           <mat-form-field class="inputFields">
             <mat-label>Username</mat-label>
             <input matInput formControlName="username" required>
-            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
               <strong>Username is required</strong>
             </mat-error>
           </mat-form-field>
         </div>
-        <!-- PASSWORD -->
+        <!-- Password -->
         <div class="d-flex justify-content-center">
           <mat-form-field class="inputFields">
             <mat-label>Password</mat-label>
@@ -28,7 +28,7 @@
           </mat-form-field>
         </div>
       </mat-card-content>
-      <!-- BUTTONS -->
+      <!-- Buttons -->
       <mat-card-actions class="d-flex justify-content-center">
         <div class="d-grid gap-2 col-8 mx-auto">
           <button mat-raised-button type="submit">
@@ -41,4 +41,6 @@
       Create an account
     </button>
   </mat-card>
+  <!-- Space -->
+  <div class="bottom-space"> </div>
 </div>

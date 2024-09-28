@@ -1,5 +1,4 @@
-<!-- Navbar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 0;">
   <div class="container-fluid justify-content-between">
     <!-- Left elements -->
     <div class="d-flex">
@@ -13,29 +12,22 @@
         />
       </form>
     </div>
-    <!-- Left elements -->
-
     <!-- Center elements -->
     <ul class="navbar-nav flex-row d-none d-md-flex">
-      <!-- ELement 1 -->
       <li class="nav-item me-3 me-lg-1 active">
         <button mat-raised-button (click)="navigateToHome()" matTooltip="Home" aria-label="Home">
           Home
         </button>
       </li>
-      <!-- ELement 2 -->
-        <li class="nav-item me-3 me-lg-1 active" *ngIf="this.tokenService.isAdmin()">
-          <button mat-raised-button (click)="navigateToUserManagement()" matTooltip="Home" aria-label="Home">
-            User Management
-          </button>
-        </li>
+      <li class="nav-item me-3 me-lg-1 active" *ngIf="this.tokenService.isAdmin()">
+        <button mat-raised-button (click)="navigateToUserManagement()" matTooltip="User Management" aria-label="User Management">
+          User Management
+        </button>
+      </li>
     </ul>
-
     <!-- Right elements -->
     <ul class="navbar-nav flex-row">
-      <!-- ELement 1 -->
       <li class="nav-item me-3 me-lg-1">
-        <!-- LOGIN or Sign Up Button -->
         <div *ngIf="!this.loginService.isAuthenticated()">
           <button mat-raised-button (click)="navigateToLogin()" matTooltip="Login" aria-label="Login">
             Login
@@ -44,19 +36,14 @@
             Sign Up
           </button>
         </div>
-        <!-- If the user is logged in -->
         <div *ngIf="this.loginService.isAuthenticated()">
           <button mat-raised-button [matMenuTriggerFor]="menu">
-            <span class="material-symbols-outlined">
-              menu
-            </span>
+            <span class="material-symbols-outlined">menu</span>
           </button>
           <mat-menu #menu="matMenu">
-            <!-- MyProfile -->
-            <button mat-menu-item (click)="navigateToMyProfile()" matTooltip="My Profile" aria-label="My Profile"> 
-              My Profile 
+            <button mat-menu-item (click)="navigateToMyProfile()" matTooltip="My Profile" aria-label="My Profile">
+              My Profile
             </button>
-            <!-- Logout -->
             <button mat-menu-item (click)="logout()" matTooltip="Logout" aria-label="Logout">
               Logout
             </button>
@@ -66,6 +53,3 @@
     </ul>
   </div>
 </nav>
-
-
-  

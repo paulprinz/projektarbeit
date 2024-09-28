@@ -15,13 +15,23 @@ export class AuthGuard implements CanActivate {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.loginService.isAuthenticated() && (state.url === '/login' || state.url === '/signup')) {
-      this.router.navigateByUrl('/');
+    const isLoggedIn = this.loginService.isAuthenticated();
+
+    // If the user is logged in and tries to access login or signup routes
+    if (isLoggedIn && (state.url === '/login' || state.url === '/signup')) {
+      this.router.navigateByUrl('/'); 
       this.openSnackBar("You are already logged in!");
-      return false;
+      return false; 
     }
 
-    return true;
+    // If the user is not logged in and tries to access routes other than login/signup
+    if (!isLoggedIn && (state.url !== '/login' && state.url !== '/signup')) {
+      this.router.navigateByUrl('/login');
+      this.openSnackBar("You must log in to access this page.");
+      return false; 
+    }
+
+    return true; 
   }
 
   openSnackBar(message: string) {
