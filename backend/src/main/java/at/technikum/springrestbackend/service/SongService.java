@@ -1,128 +1,99 @@
 package at.technikum.springrestbackend.service;
 
-import at.technikum.springrestbackend.dto.SongDto;
-import at.technikum.springrestbackend.exception.EntityNotFoundException;
+import at.technikum.springrestbackend.minio.MinioService;
 import at.technikum.springrestbackend.model.Song;
+import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SongService {
 
     @Autowired
-    SongRepository songRepository;
+    private SongRepository songRepository;
 
+    @Autowired
+    private MinioService minioService;
 
     /**
-     * Retrieves all songs from the repository.
+     * Retrieves a song by its ID.
      *
-     * @return a list of all songs.
+     * @param id the ID of the song to retrieve
+     * @return an {@link Optional<Song>} containing the song if found,
+     * or an empty {@link Optional} if no song exists with the given ID
      */
-    public List<Song> findAll(){
-        return songRepository.findAll();
+    public Optional<Song> findSongById(Long id) {
+        return songRepository.findById(id);
     }
 
     /**
-     * Retrieves a song by their ID.
+     * Downloads the song file associated with the specified song.
      *
-     * @param id the ID of the song to be retrieved.
-     * @return the song with the specified ID.
-     * @throws EntityNotFoundException if no song with the given ID is found.
+     * @param song the Song object containing the file details
+     * @param songBucketName the name of the Minio bucket where the song is stored
+     * @return an InputStream of the downloaded song file
+     * @throws Exception if there is an error during the file download process
      */
-    public Song findById(Long id) throws EntityNotFoundException{
-        var result = songRepository.findById(id);
-        if (result.isEmpty()) {
-            throw new EntityNotFoundException("Song with id: " + id + " not found.");
-        }
-        return result.get();
+    public InputStream downloadSongFile(Song song, String songBucketName) throws Exception {
+        return minioService.downloadFile(songBucketName, song.getFileName());
     }
 
     /**
-     * Saves a new song to the repository.
+     * Uploads a song file and saves it to the database.
      *
-     * @param songDto the data transfer object containing song details.
-     * @return the saved song.
-     * @throws Exception if an error occurs while saving the song.
+     * @param file the MultipartFile representing the song to be uploaded
+     * @param songBucketName the name of the Minio bucket where the file will be uploaded
+     * @param user the User who is uploading the song
+     * @return the saved Song object containing file details
+     * @throws Exception if there is an error during the upload or saving process
      */
-    public Song save(SongDto songDto) throws Exception {
-        try {
-            Song song = new Song();
-            song.setId(songDto.getId());
-            song.setName(songDto.getName());
-            song.setArtist(songDto.getArtist());
-            song.setLength(songDto.getLength());
-            song.setLikeCount(songDto.getLikeCount());
-            song.setComments(songDto.getComments());
-            song.setFileLink(songDto.getFileLink());
-            song.setGenre(songDto.getGenre());
-            song.setUser_id(songDto.getUser_id());
+    public Song uploadSong(MultipartFile file, String songBucketName, User user) throws Exception {
+        // Generate a unique file name
+        String originalFileName = file.getOriginalFilename();
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
-            return songRepository.save(song);
-        } catch (Exception e) {
-            throw new Exception("Error saving song: " + e.getMessage(), e);
-        }
+        // Upload the song to Minio
+        minioService.uploadFile(songBucketName, uniqueFileName, file);
+
+        // Save the song in the database
+        Song song = new Song();
+        song.setFileName(uniqueFileName);
+        song.setUser(user);
+        songRepository.save(song);
+
+        return song;
     }
 
     /**
-     * Updates an existing song in the repository.
+     * Deletes the specified song from Minio and the database.
      *
-     * @param songDto the data transfer object containing updated song details.
-     * @return the updated song.
-     * @throws Exception if an error occurs while updating the song.
+     * @param song the Song object to be deleted
+     * @param songBucketName the name of the Minio bucket where the song is stored
+     * @throws Exception if there is an error during the deletion process
      */
-    public Song updateById(SongDto songDto) throws Exception {
-        try {
-            Song existingSong = findById(songDto.getId());
+    public void deleteSong(Song song, String songBucketName) throws Exception {
+        // Delete the song from Minio
+        minioService.deleteFile(songBucketName, song.getFileName());
 
-            existingSong.setName(songDto.getName());
-            existingSong.setArtist(songDto.getArtist());
-            existingSong.setLength(songDto.getLength());
-            existingSong.setLikeCount(songDto.getLikeCount());
-            existingSong.setComments(songDto.getComments());
-            existingSong.setFileLink(songDto.getFileLink());
-            existingSong.setGenre(songDto.getGenre());
-            existingSong.setUser_id(songDto.getUser_id());
-
-            return songRepository.save(existingSong);
-        } catch (Exception e) {
-            throw new Exception("Error updating Song: " + e.getMessage(), e);
-        }
+        // Remove the song from the database
+        songRepository.deleteById(song.getId());
     }
 
     /**
-     * Deletes a song from the repository by their ID.
+     * Checks if the uploaded file is a valid audio type (MPEG or WAV).
      *
-     * @param id the ID of the song to be deleted.
-     * @throws Exception if an error occurs while deleting the song.
+     * @param file the MultipartFile to be validated
+     * @return true if the file type is valid, false otherwise
      */
-    public void deleteById(Long id) throws Exception {
-        try {
-            songRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new Exception("Error deleting song: " + e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Converts a Song entity to a SongDto.
-     *
-     * @param song the song entity to be converted.
-     * @return the converted SongDto.
-     */
-    public SongDto convertToDto(Song song) {
-        return new SongDto(
-                song.getId(),
-                song.getName(),
-                song.getArtist(),
-                song.getLength(),
-                song.getLikeCount(),
-                song.getComments(),
-                song.getFileLink(),
-                song.getGenre(),
-                song.getUser_id()
-        );
+    public boolean isValidFileType(MultipartFile file) {
+        String contentType = file.getContentType();
+        return "audio/mpeg".equals(contentType) || "audio/wav".equals(contentType);
     }
 
 }
