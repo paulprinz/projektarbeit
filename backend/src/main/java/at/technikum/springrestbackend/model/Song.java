@@ -22,8 +22,6 @@ public class Song {
 
     private String artist;
 
-    private Long length;
-
     private int likeCount;
 
     private String genre;

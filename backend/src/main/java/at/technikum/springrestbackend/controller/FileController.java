@@ -129,9 +129,11 @@ public class FileController {
 
             Song song = songOpt.get();
             InputStream inputStream = songService.downloadSongFile(song, songBucketName);
+
+            MediaType mediaType = songService.getMediaTypeForFileName(song.getFileName());
             return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + song.getFileName() + "\"")
+                    .contentType(mediaType)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + song.getFileName() + "\"")
                     .body(new InputStreamResource(inputStream));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

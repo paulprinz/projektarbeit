@@ -1,10 +1,13 @@
 package at.technikum.springrestbackend.service;
 
+import at.technikum.springrestbackend.dto.SongDto;
+import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.minio.MinioService;
 import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +23,22 @@ public class SongService {
 
     @Autowired
     private MinioService minioService;
+
+
+    /**
+     * Retrieves a song by their ID.
+     *
+     * @param id the ID of the song to be retrieved.
+     * @return the song with the specified ID.
+     * @throws EntityNotFoundException if no song with the given ID is found.
+     */
+    public Song findById(Long id) throws EntityNotFoundException{
+        var result = songRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new EntityNotFoundException("Song with id: " + id + " not found.");
+        }
+        return result.get();
+    }
 
     /**
      * Retrieves a song by its ID.
@@ -94,6 +113,38 @@ public class SongService {
     public boolean isValidFileType(MultipartFile file) {
         String contentType = file.getContentType();
         return "audio/mpeg".equals(contentType) || "audio/wav".equals(contentType);
+    }
+
+    /**
+     * Determines the media type for a given file name based on its extension.
+     *
+     * @param fileName the name of the file.
+     * @return the MediaType corresponding to the file extension, or
+     * APPLICATION_OCTET_STREAM if the extension is not recognized.
+     */
+    public MediaType getMediaTypeForFileName(String fileName) {
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        switch (extension.toLowerCase()) {
+            case "mp3": return MediaType.valueOf("audio/mpeg");
+            case "wav": return MediaType.valueOf("audio/wav");
+            default: return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
+
+    /**
+     * Converts a Song object to a Song DTO
+     * @param song song object
+     * @return Song DTO
+     */
+    public SongDto convertToSongDto(Song song) {
+        return new SongDto(
+                song.getId(),
+                song.getUser().getId(),
+                song.getName(),
+                song.getArtist(),
+                song.getLikeCount(),
+                song.getGenre()
+        );
     }
 
 }
