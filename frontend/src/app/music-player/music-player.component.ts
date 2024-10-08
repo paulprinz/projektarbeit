@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from '../../shared/services/File.service';
 import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Song } from '../../shared/models/Song.model';
+import { SongDto } from '../../shared/models/SongDto.model';
 import { SongService } from '../../shared/services/Song.service';
 
 
@@ -16,7 +16,7 @@ export class MusicPlayerComponent implements OnInit {
   fileUrl: string = '';
   songId: number | undefined;
   songIdParam: string | null | undefined;
-  songDetails: Song | undefined;
+  songDetails: SongDto | undefined;
 
   // Audio
   audio: HTMLAudioElement | undefined;  
@@ -54,7 +54,7 @@ export class MusicPlayerComponent implements OnInit {
     if (this.songId) {
       return new Promise((resolve, reject) => {
         this.songService.getSongDetailsById(this.songId!).subscribe(
-          (data: Song) => {
+          (data: SongDto) => {
             this.songDetails = data;
             this.songId = data.id;
             this.loadSong();

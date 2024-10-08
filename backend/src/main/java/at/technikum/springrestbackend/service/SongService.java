@@ -72,7 +72,7 @@ public class SongService {
      * @return the saved Song object containing file details
      * @throws Exception if there is an error during the upload or saving process
      */
-    public Song uploadSong(MultipartFile file, String songBucketName, User user) throws Exception {
+    public Song uploadSong(MultipartFile file, String songBucketName, User user, SongDto songDto) throws Exception {
         // Generate a unique file name
         String originalFileName = file.getOriginalFilename();
         String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFileName;
@@ -81,12 +81,18 @@ public class SongService {
         minioService.uploadFile(songBucketName, uniqueFileName, file);
 
         // Save the song in the database
-        Song song = new Song();
-        song.setFileName(uniqueFileName);
-        song.setUser(user);
-        songRepository.save(song);
+        try {
+            Song song = new Song();
+            song.setName(songDto.getName());
+            song.setArtist(songDto.getArtist());
+            song.setGenre(songDto.getGenre());
+            song.setUser(user);
+            song.setFileName(uniqueFileName);
 
-        return song;
+            return songRepository.save(song);
+        } catch (Exception e) {
+            throw new Exception("Error uploading the song: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -139,10 +145,8 @@ public class SongService {
     public SongDto convertToSongDto(Song song) {
         return new SongDto(
                 song.getId(),
-                song.getUser().getId(),
                 song.getName(),
                 song.getArtist(),
-                song.getLikeCount(),
                 song.getGenre()
         );
     }

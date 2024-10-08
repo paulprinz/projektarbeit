@@ -24,10 +24,10 @@
       <div class="song-info d-flex justify-content-between align-items-center mt-4">
         <div class="song-details">
           <!-- Song name -->
-          <span class="song-name">{{ songDetails?.artist || 'Loading...' }}</span>
+          <span class="song-name">{{ songDetails?.name || 'Loading...' }}</span>
           <br>
           <!-- Artist name -->
-          <span class="song-artist">{{ songDetails?.name || 'Loading...' }}</span>
+          <span class="song-artist">{{ songDetails?.artist || 'Loading...' }}</span>
         </div>
         <!-- Like Button -->
         <button class="player-btn btn btn-outline-light" 
@@ -60,20 +60,20 @@
       <!-- Controls -->
       <div class="controls d-flex justify-content-between align-items-center mt-4">
         <!-- Shuffle Button -->
-        <button class="player-btn btn btn-outline-light" type="button">
-            <i class="fa-solid fa-shuffle"></i>
+        <button class="player-btn btn btn-outline-light no-pointer" type="button" >
+          <i class="fa-solid fa-shuffle"></i>
         </button>
         <!-- Back Button -->
-        <button class="player-btn btn btn-outline-light prev-btn" type="button">
-            <i class="fa-solid fa-backward"></i>
+        <button class="player-btn btn btn-outline-light prev-btn no-pointer" type="button">
+          <i class="fa-solid fa-backward"></i>
         </button>
         <!-- Play/Pause Button -->
         <button class="player-btn btn btn-outline-light play-pause" type="button" (click)="togglePlayback()">
-            <i class="fa-solid" [ngClass]="{ 'fa-pause': isPlaying, 'fa-play': !isPlaying }"></i>
+          <i class="fa-solid" [ngClass]="{ 'fa-pause': isPlaying, 'fa-play': !isPlaying }"></i>
         </button>
         <!-- Next Button -->
-        <button class="player-btn btn btn-outline-light fa-next-btn" type="button">
-            <i class="fa-solid fa-forward"></i>
+        <button class="player-btn btn btn-outline-light fa-next-btn no-pointer" type="button">
+          <i class="fa-solid fa-forward"></i>
         </button>
         <!-- Repeat Button -->
         <button class="player-btn btn btn-outline-light" 

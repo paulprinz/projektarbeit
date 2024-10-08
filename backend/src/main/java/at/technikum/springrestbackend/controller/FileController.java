@@ -1,5 +1,6 @@
 package at.technikum.springrestbackend.controller;
 
+import at.technikum.springrestbackend.dto.SongDto;
 import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.model.User;
@@ -53,7 +54,10 @@ public class FileController {
     @PostMapping("/songs")
     public ResponseEntity<String> uploadSong(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("name") String name,
+            @RequestParam("artist") String artist,
+            @RequestParam("genre") String genre) {
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty.");
@@ -68,8 +72,14 @@ public class FileController {
             // Retrieve the user
             User user = userService.findByName(userPrincipal.getUsername());
 
+            // Create SongDto object
+            SongDto songDto = new SongDto();
+            songDto.setName(name);
+            songDto.setArtist(artist);
+            songDto.setGenre(genre);
+
             // Upload the song using the service
-            songService.uploadSong(file, songBucketName, user);
+            songService.uploadSong(file, songBucketName, user, songDto);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Song uploaded successfully!");
         } catch (Exception e) {

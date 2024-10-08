@@ -1,8 +1,6 @@
-export interface Song{
+export interface SongDto{
     id: number;
-    userId: number;
     name: string;
     artist: string;
-    likeCount: number;
     genre: string;
 }
