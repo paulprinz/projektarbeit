@@ -220,3 +220,41 @@
 .spacer-player {
   padding-bottom: 100px;
 }  
+
+/* Dialog */
+.open-dialog {
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.dialog-button {
+  width: 48%;
+}
+
+.col-md-6 {
+  max-height: 90vh;
+  overflow: hidden; 
+}
+
+.record-image {
+  width: 150px;
+  height: 150px;
+  background-image: url('shared/assets/record-img.png');
+  background-size: cover; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import { MusicPlayerComponent } from './music-player/music-player.component';
+import { UploadSongDialogComponent } from './upload-song-dialog/upload-song-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MusicPlayerComponent } from './music-player/music-player.component';
     NavbarComponent,
     UserDetailsComponent,
     UserManagementComponent,
-    MusicPlayerComponent
+    MusicPlayerComponent,
+    UploadSongDialogComponent
   ],
   imports: [
     BrowserModule,
