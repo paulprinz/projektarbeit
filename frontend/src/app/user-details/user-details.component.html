@@ -25,7 +25,7 @@
                 <ng-template #placeholder>
                   <div class="image-container avatar-placeholder"></div>
                 </ng-template>
-                <label for="avatar-input-file" *ngIf="!this.userIdParam || this.tokenService.isAdmin()">
+                <label for="avatar-input-file" *ngIf="!this.userIdParam">
                   <div class="icon-wrapper">
                     <input
                       type="file"
@@ -113,7 +113,7 @@
     <div class="spacer"></div>
 
     <!-- Second mat-card (Password Change Section) -->
-    <div class="row justify-content-center" *ngIf="this.tokenService.isAdmin()">
+    <div class="row justify-content-center" *ngIf="!this.userIdParam">
       <div class="col-auto">
         <mat-card id="user-details-box">
           <mat-card-title class="d-flex justify-content-center mb-3">Password Change</mat-card-title>

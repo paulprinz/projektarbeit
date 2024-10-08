@@ -1,6 +1,5 @@
 package at.technikum.springrestbackend.dto.login;
 
-
 public class TokenResponse {
     private String accessToken;
 

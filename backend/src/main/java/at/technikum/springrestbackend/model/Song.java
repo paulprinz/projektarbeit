@@ -5,8 +5,6 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO - annotations
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,23 +22,20 @@ public class Song {
 
     private String artist;
 
-    private Long length;
-
     private int likeCount;
-
-    // TODO - create a comment model
-    @Transient
-    private List<String> comments;
-
-    private String fileLink;
 
     private String genre;
 
-    // TODO - join table
-    private Long user_id;
+    private String fileName;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     @ManyToMany(mappedBy = "songs")
     private List<Playlist> playlists = new ArrayList<>();
 
+    @Transient
+    private List<String> comments;
 
 }

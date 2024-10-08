@@ -3,7 +3,6 @@ package at.technikum.springrestbackend.service;
 import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
-import at.technikum.springrestbackend.model.Picture;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.PictureRepository;
 import at.technikum.springrestbackend.repository.UserRepository;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,12 +22,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PictureRepository pictureRepository;
+
     @Lazy
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PictureRepository pictureRepository;
 
     /**
      * Retrieves all users from the repository.
@@ -147,6 +146,19 @@ public class UserService {
     }
 
     /**
+     * Deletes the Picture associated with the specified user ID.
+     * @param userId the ID of the user whose Picture should be deleted
+     */
+    @Transactional
+    public void deletePictureByUserId(Long userId) throws Exception {
+        User user = findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User must not be null.");
+        }
+        pictureRepository.deleteByUserId(userId);
+    }
+
+    /**
      * Deletes a user from the repository by their ID.
      *
      * @param id the ID of the user to be deleted.
@@ -158,32 +170,6 @@ public class UserService {
         } catch (Exception e) {
             throw new Exception("Error deleting user: " + e.getMessage(), e);
         }
-    }
-
-    /**
-     * Retrieves the associated Picture with the specified User.
-     * @return an {@link Optional} containing the {@link Picture} if found,
-     * or an empty {@link Optional} if no Picture is associated with the user.
-     */
-    public Optional<Picture> getPictureByUser(Long userId) throws Exception {
-        User user = findById(userId);
-        if (user == null) {
-            throw new IllegalArgumentException("User must not be null.");
-        }
-        return pictureRepository.findByUser(userId);
-    }
-
-    /**
-     * Deletes the Picture associated with the specified user ID.
-     * @param userId the ID of the user whose Picture should be deleted
-     */
-    @Transactional
-    public void deletePictureByUserId(Long userId) throws Exception {
-        User user = findById(userId);
-        if (user == null) {
-            throw new IllegalArgumentException("User must not be null.");
-        }
-        pictureRepository.deleteByUserId(userId);
     }
 
     /**

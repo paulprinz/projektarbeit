@@ -5,8 +5,6 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO - annotations
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +20,6 @@ public class Playlist {
 
     private String name;
 
-    // TODO - join table
     private Long user_id;
 
     @ManyToMany

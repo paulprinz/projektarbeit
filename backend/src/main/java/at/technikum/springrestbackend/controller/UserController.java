@@ -23,6 +23,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+    /**
+     * Retrieves a paginated list of users with optional filtering.
+     *
+     * @param pageSize the number of users per page
+     * @param page the page number to retrieve
+     * @param sort the sorting criteria (default is "username,asc")
+     * @param filter an optional filter string to filter users
+     * @param active a flag to filter by active status (default is false)
+     * @return a ResponseEntity containing a paged response with user details
+     */
     @GetMapping("/get-all")
     public ResponseEntity<PagedResponseDto<UserDetailsDto>> getAllUsers(
             @RequestParam(name = "pageSize", defaultValue = "50", required = false) int pageSize,
@@ -51,12 +62,26 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id the ID of the user to retrieve
+     * @return a ResponseEntity containing the user details
+     * @throws EntityNotFoundException if the user is not found
+     */
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws EntityNotFoundException {
         User user = userService.findById(id);
         return ResponseEntity.ok(userService.convertToDto(user));
     }
 
+    /**
+     * Retrieves the currently authenticated user's details.
+     *
+     * @param userPrincipal the currently authenticated user's principal
+     * @return a ResponseEntity containing the user's details
+     * @throws EntityNotFoundException if the user is not found
+     */
     @GetMapping("/me")
     public ResponseEntity<UserDetailsDto> getMyUser(
             @AuthenticationPrincipal UserPrincipal userPrincipal) throws EntityNotFoundException {
@@ -65,12 +90,26 @@ public class UserController {
         return ResponseEntity.ok(userService.convertToUserDetailsDto(user));
     }
 
+    /**
+     * Retrieves a user by their username.
+     *
+     * @param username the username of the user to retrieve
+     * @return a ResponseEntity containing the user details
+     * @throws EntityNotFoundException if the user is not found
+     */
     @GetMapping("/get-user-by-name/{username}")
     public ResponseEntity<UserDto> getUserByName(@PathVariable String username) throws  EntityNotFoundException {
         User user = userService.findByName(username);
         return ResponseEntity.ok(userService.convertToDto(user));
     }
 
+    /**
+     * Creates a new user.
+     *
+     * @param userDto the user details to create
+     * @return a ResponseEntity containing the created user details
+     * @throws Exception if an error occurs during user creation
+     */
     @PostMapping("/create")
     public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) throws Exception {
         return ResponseEntity
@@ -78,6 +117,12 @@ public class UserController {
                 .body(userService.convertToDto(userService.save(userDto)));
     }
 
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id the ID of the user to delete
+     * @return a ResponseEntity with no content
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         try {
@@ -88,6 +133,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Updates an existing user's information.
+     *
+     * @param userDto the user details to update
+     * @return a ResponseEntity containing the updated user details
+     */
     @PutMapping("/update")
     public ResponseEntity<UserDto> updateById(@RequestBody UserDto userDto) {
         try {
@@ -98,6 +149,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Updates the details of an existing user.
+     *
+     * @param userDto the user details to update
+     * @return a ResponseEntity containing the updated user details
+     */
     @PutMapping("/update-details")
     public ResponseEntity<UserDetailsDto> updateDetailsById(@RequestBody UserDetailsDto userDto) {
         try {
@@ -108,6 +165,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Changes the password of the currently authenticated user.
+     *
+     * @param userPrincipal the currently authenticated user's principal
+     * @param passwordChangeDto contains the old and new passwords
+     * @return a ResponseEntity with success or error message
+     */
     @PutMapping("/change-password")
     public ResponseEntity<?> changePassword(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

@@ -5,14 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 /**
  * PagedResponse DTO. Used to give a pageable to the frontend.
- *
- * @author pp
- *
  */
-
 @Getter
 @Setter
 @NoArgsConstructor

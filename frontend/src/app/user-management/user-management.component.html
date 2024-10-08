@@ -28,6 +28,8 @@
           <tr *ngFor="let user of availableUsers.data">
             <td>
               <a [routerLink]="['/user', user.id]" class="text-decoration-none">
+                <i class="fa-solid fa-user" *ngIf="user.role !== 'ROLE_ADMIN'"></i>
+                <i class="fa-solid fa-user-tie" *ngIf="user.role === 'ROLE_ADMIN'"></i>
                 {{ user.username }}
               </a>
             </td>
@@ -38,12 +40,21 @@
             <td>{{ user.country }}</td>
             <td>
               <div class="d-flex align-items-center">
-                <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.id)">Delete</button>
+                <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.id)">
+                  <i class="fa-solid fa-user-slash"></i>
+                  Delete
+                </button>
                 <div *ngIf="user.active">
-                  <button class="btn btn-warning btn-sm" (click)="changeActivation(user)">Inactivate</button>
+                  <button class="btn btn-warning btn-sm" (click)="changeActivation(user)">
+                    <i class="fa-solid fa-x"></i>
+                    Inactivate
+                  </button>
                 </div>
                 <div *ngIf="!user.active">
-                  <button class="btn btn-success btn-sm" (click)="changeActivation(user)">Activate</button>
+                  <button class="btn btn-success btn-sm" (click)="changeActivation(user)">
+                    <i class="fa-solid fa-check"></i>
+                    Activate
+                  </button>
                 </div>
               </div>
             </td>
