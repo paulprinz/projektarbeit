@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "u.email AS email, "
             + "u.role AS role, "
             + "u.birthDate AS birthDate, "
-            + "u.country AS country, "
+            + "u.country.name AS country, "
             + "u.followerCount AS followerCount, "
             + "u.active AS active ) "
             + " FROM User u "
@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "u.email AS email, "
             + "u.role AS role, "
             + "u.birthDate AS birthDate, "
-            + "u.country AS country, "
+            + "u.country.name AS country, "
             + "u.followerCount AS followerCount, "
             + "u.active AS active ) "
             + " FROM User u " )
@@ -49,13 +49,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "u.email AS email, "
             + "u.role AS role, "
             + "u.birthDate AS birthDate, "
-            + "u.country AS country, "
+            + "u.country.name AS country, "
             + "u.followerCount AS followerCount, "
             + "u.active AS active ) "
             + " FROM User u "
             + " WHERE "
             + " u.active = TRUE "
-            + " AND (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country, ' ', u.followerCount) LIKE %:filter%) ")
+            + " AND (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country.name, ' ', u.followerCount) LIKE %:filter%) ")
     Page<UserDetailsDto> findAllByActiveWithFilterPageable(Pageable pageable, @Param("filter") String filter);
 
     @Query(" SELECT DISTINCT new at.technikum.springrestbackend.dto.UserDetailsDto "
@@ -64,11 +64,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "u.email AS email, "
             + "u.role AS role, "
             + "u.birthDate AS birthDate, "
-            + "u.country AS country, "
+            + "u.country.name AS country, "
             + "u.followerCount AS followerCount, "
             + "u.active AS active ) "
             + " FROM User u "
-            + " WHERE (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country, ' ', u.followerCount, ' ', u.active) LIKE %:filter%) ")
+            + " WHERE (:filter IS NULL OR CONCAT(u.username, ' ', u.role , ' ', u.birthDate, ' ', u.email, ' ', u.country.name, ' ', u.followerCount, ' ', u.active) LIKE %:filter%) ")
     Page<UserDetailsDto> findAllWithFilterPageable(Pageable pageable, @Param("filter") String filter);
 
 }

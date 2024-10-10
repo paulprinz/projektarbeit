@@ -32,8 +32,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "country")
-    private String country;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country", referencedColumnName = "name")
+    private Country country;
 
     @Column(name = "follower_count")
     private int followerCount;

@@ -9,6 +9,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { PasswordChangeDto } from '../../shared/models/PasswordChangeDto.model';
 import { TokenService } from '../login/token.service';
 import { delay, map, Observable, of } from 'rxjs';
+import { CountryService } from '../../shared/services/Country.service';
+import { CountryDto } from '../../shared/models/CountryDto.model';
 
 @Component({
   selector: 'app-user-details',
@@ -26,6 +28,7 @@ export class UserDetailsComponent implements OnInit {
   username: string | undefined;
   userIdParam: string | null | undefined;
   roles: string[] = ['ROLE_ADMIN', 'ROLE_USER'];
+  countries: CountryDto[] = [];
 
   // User profile form
   userProfileForm: FormGroup = this.fb.group({
@@ -53,6 +56,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     public tokenService: TokenService,
+    private countryService: CountryService,
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +72,7 @@ export class UserDetailsComponent implements OnInit {
         // Load details for the logged-in user
         this.loadMyUserDetails();
       }
+      this.fetchCountries();
     });
   }
 
@@ -79,7 +84,12 @@ export class UserDetailsComponent implements OnInit {
             this.userDetails = data;
             this.userId = data.id;
             this.loadAvatar();
+
             this.userProfileForm.patchValue(data);
+
+            if (this.countries.length > 0) {
+              this.userProfileForm.patchValue({ country: data.country });
+            }
             resolve();
           },
           error => {
@@ -98,7 +108,12 @@ export class UserDetailsComponent implements OnInit {
           this.userDetails = data;
           this.userId = data.id;
           this.loadAvatar();
+
           this.userProfileForm.patchValue(data);
+          if (this.countries.length > 0) {
+            this.userProfileForm.patchValue({ country: data.country });
+          }
+
           resolve();
         },
         error => {
@@ -241,6 +256,22 @@ export class UserDetailsComponent implements OnInit {
       })
     );
   }
+
+  // Country
+  fetchCountries(): void {
+    this.countryService.getAllCountries().subscribe(
+      (data: CountryDto[]) => {
+        this.countries = data;
+  
+        if (this.userDetails && this.userDetails.country) {
+          this.userProfileForm.patchValue({ country: this.userDetails.country });
+        }
+      },
+      (error) => {
+        console.error('Error fetching countries:', error);
+      }
+    );
+  }  
 
   openSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', {

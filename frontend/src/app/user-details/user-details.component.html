@@ -92,7 +92,9 @@
               <div class="d-flex justify-content-center">
                 <mat-form-field class="inputFields">
                   <mat-label>Country</mat-label>
-                  <input matInput formControlName="country" required />
+                  <mat-select formControlName="country">
+                    <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
+                  </mat-select>
                   <mat-error *ngIf="userProfileForm.get('country')?.hasError('required')">
                     <strong>Country is required</strong>
                   </mat-error>

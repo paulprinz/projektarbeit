@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("api/users/create").permitAll()
                         .requestMatchers("api/users/deleteUser/{id}").hasRole("ADMIN")
+                        .requestMatchers("api/country/all").permitAll()
                         .requestMatchers(
                                 // Swagger UI
                                 "/swagger-ui/**",

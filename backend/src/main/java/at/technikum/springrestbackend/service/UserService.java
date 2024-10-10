@@ -3,6 +3,7 @@ package at.technikum.springrestbackend.service;
 import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.dto.UserDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
+import at.technikum.springrestbackend.model.Country;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.PictureRepository;
 import at.technikum.springrestbackend.repository.UserRepository;
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     PictureRepository pictureRepository;
+
+    @Autowired
+    private CountryService countryService;
 
     @Lazy
     @Autowired
@@ -84,9 +88,14 @@ public class UserService {
             user.setRole(userDto.getRole());
             user.setBirthDate(userDto.getBirthDate());
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            user.setCountry(userDto.getCountry());
             user.setFollowerCount(userDto.getFollowerCount());
             user.setActive(userDto.isActive());
+
+            Country country = countryService.findByName(userDto.getCountry());
+            if (country == null) {
+                throw new EntityNotFoundException("Country not found");
+            }
+            user.setCountry(country);
 
             return userRepository.save(user);
         } catch (Exception e) {
@@ -110,9 +119,14 @@ public class UserService {
             existingUser.setRole(userDto.getRole());
             existingUser.setBirthDate(userDto.getBirthDate());
             existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            existingUser.setCountry(userDto.getCountry());
             existingUser.setFollowerCount(userDto.getFollowerCount());
             existingUser.setActive(userDto.isActive());
+
+            Country country = countryService.findByName(userDto.getCountry());
+            if (country == null) {
+                throw new EntityNotFoundException("Country not found");
+            }
+            existingUser.setCountry(country);
 
             return userRepository.save(existingUser);
         } catch (Exception e) {
@@ -135,9 +149,14 @@ public class UserService {
             existingUser.setEmail(userDto.getEmail());
             existingUser.setRole(userDto.getRole());
             existingUser.setBirthDate(userDto.getBirthDate());
-            existingUser.setCountry(userDto.getCountry());
             existingUser.setFollowerCount(userDto.getFollowerCount());
             existingUser.setActive(userDto.isActive());
+
+            Country country = countryService.findByName(userDto.getCountry());
+            if (country == null) {
+                throw new EntityNotFoundException("Country not found");
+            }
+            existingUser.setCountry(country);
 
             return userRepository.save(existingUser);
         } catch (Exception e) {
@@ -248,7 +267,7 @@ public class UserService {
                 user.getRole(),
                 user.getBirthDate(),
                 user.getPassword(),
-                user.getCountry(),
+                user.getCountry().getName(),
                 user.getFollowerCount(),
                 user.isActive()
         );
@@ -266,7 +285,7 @@ public class UserService {
                 user.getEmail(),
                 user.getRole(),
                 user.getBirthDate(),
-                user.getCountry(),
+                user.getCountry().getName(),
                 user.getFollowerCount(),
                 user.isActive()
         );

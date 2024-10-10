@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, delay, map, of } from 'rxjs';
 import { LoginService } from '../login/login.service';
+import { CountryDto } from '../../shared/models/CountryDto.model';
+import { CountryService } from '../../shared/services/Country.service';
 
 
 @Component({
@@ -12,11 +14,14 @@ import { LoginService } from '../login/login.service';
 })
 export class RegisterComponent implements OnInit {
 
+  countries: CountryDto[] = [];
+
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
     private loginService: LoginService,
     private formBuilder: FormBuilder,
+    private countryService: CountryService,
   ) { }
 
   registerForm: FormGroup = new FormGroup({
@@ -53,6 +58,8 @@ export class RegisterComponent implements OnInit {
         })
       );
     }
+
+    this.fetchCountries();
   }
 
   registerUser() {
@@ -99,6 +106,18 @@ export class RegisterComponent implements OnInit {
       return false;
     }
   }
+
+  // Country
+  fetchCountries(): void {
+    this.countryService.getAllCountries().subscribe(
+      (data: CountryDto[]) => {
+        this.countries = data;
+      },
+      (error) => {
+        console.error('Error fetching countries:', error);
+      }
+    );
+  } 
 
   // Navigate to LOGIN
   navigate() {
