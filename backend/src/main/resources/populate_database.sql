@@ -1,6 +1,41 @@
+-- Country --
+INSERT INTO country (name) VALUES
+  ('Austria'),
+  ('Belgium'),
+  ('Bulgaria'),
+  ('Croatia'),
+  ('Cyprus'),
+  ('Czech Republic'),
+  ('Denmark'),
+  ('Estonia'),
+  ('Finland'),
+  ('France'),
+  ('Germany'),
+  ('Greece'),
+  ('Hungary'),
+  ('Ireland'),
+  ('Israel'),
+  ('Italy'),
+  ('Latvia'),
+  ('Lithuania'),
+  ('Luxembourg'),
+  ('Malta'),
+  ('Netherlands'),
+  ('Poland'),
+  ('Portugal'),
+  ('Romania'),
+  ('Slovakia'),
+  ('Slovenia'),
+  ('Spain'),
+  ('Sweden'),
+  ('Switzerland'),
+  ('United Kingdom'),
+  ('USA');
+
+-- User --
 INSERT INTO user (user_name, active, birth_date, follower_count, id, country, email, password, role)
 VALUES
-    ('dev1',true,'2024-09-22',0,1,'Great Britain','dev1@email.com','$2a$10$EAwsItTxg6qPyErNEk.0mu6AQKLp4zh3XRuOghbhERAJ7akFVG4ta','ROLE_ADMIN'),
+    ('dev1',true,'2024-09-22',0,1,'United Kingdom','dev1@email.com','$2a$10$EAwsItTxg6qPyErNEk.0mu6AQKLp4zh3XRuOghbhERAJ7akFVG4ta','ROLE_ADMIN'),
     ('dev2',true,'2024-09-22',1,2,'Austria','dev2@email.com','$2a$10$Ev/uL.AOuOiVSPCQCdfQkOMRwHZbuyTFvJ2TnZTSClt.KpBKyybdW','ROLE_ADMIN'),
     ('dev3',false,'2024-09-22',2,3,'Hungary','dev3@email.com','$2a$10$Xt96FEagIGGUX3lW5u3V7uNp49Gmw6F7HBaMUggyOnLqnfGGv38sm','ROLE_ADMIN'),
     ('user1',true,'1945-10-09',4,4,'Germany','user1@supermail.it','$2a$10$CLG5dj79iXvv35GjHBQ/3eY0MvqPr4jq5dLgBlqKyXIt3xKERbRCu','ROLE_USER'),
