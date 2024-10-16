@@ -20,6 +20,12 @@
           Home
         </button>
       </li>
+      <li class="nav-item me-3 me-lg-1 active">
+        <button mat-raised-button (click)="navigateToAllSongs()" matTooltip="Songs" aria-label="Songs">
+          <i class="fa-solid fa-music"></i>
+          Songs
+        </button>
+      </li>
       <li class="nav-item me-3 me-lg-1 active" *ngIf="this.tokenService.isAdmin()">
         <button mat-raised-button (click)="navigateToUserManagement()" matTooltip="User Management" aria-label="User Management">
           <i class="fa-solid fa-users"></i>

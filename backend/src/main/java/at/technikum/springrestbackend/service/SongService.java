@@ -1,12 +1,16 @@
 package at.technikum.springrestbackend.service;
 
 import at.technikum.springrestbackend.dto.SongDto;
+import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.minio.MinioService;
 import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.SongRepository;
+import at.technikum.springrestbackend.utils.PageableFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -98,16 +102,41 @@ public class SongService {
     /**
      * Deletes the specified song from Minio and the database.
      *
-     * @param song the Song object to be deleted
-     * @param songBucketName the name of the Minio bucket where the song is stored
+     * @param id the Song object to be deleted
      * @throws Exception if there is an error during the deletion process
      */
-    public void deleteSong(Song song, String songBucketName) throws Exception {
+    public void deleteSong(Long id) throws Exception {
+        Optional<Song> songOptional = songRepository.findById(id);
+
+        if (songOptional.isEmpty()) {throw new EntityNotFoundException("Song with id: " + id + " not found.");}
+
+        Song song = songOptional.get();
+
         // Delete the song from Minio
-        minioService.deleteFile(songBucketName, song.getFileName());
+        minioService.deleteFile("songs", song.getFileName());
 
         // Remove the song from the database
         songRepository.deleteById(song.getId());
+    }
+
+
+    /**
+     * Likes the specified song.
+     *
+     * @param id the ID of the Song
+     * @param likeIncrement the increment the likeCount should be added to
+     * @throws Exception if there is an error during the deletion process
+     */
+    public void likeSong(Long id, int likeIncrement) throws Exception {
+        Optional<Song> songOptional = songRepository.findById(id);
+
+        if (songOptional.isEmpty()) {throw new EntityNotFoundException("Song with id: " + id + " not found.");}
+
+        Song song = songOptional.get();
+
+        song.setLikeCount(song.getLikeCount() + likeIncrement);
+
+        songRepository.save(song);
     }
 
     /**
@@ -149,6 +178,35 @@ public class SongService {
                 song.getArtist(),
                 song.getGenre()
         );
+    }
+
+
+    /**
+     * Returns all Users.
+     *
+     * @param page page to return
+     * @param size size of page
+     * @param sort sort parameter
+     *
+     * @return all songs.
+     */
+    public Page<SongDto> findAllSongs(int page, int size, String sort) {
+        Pageable pageable = PageableFactory.create(page, size, sort);
+        return songRepository.findAllPageable(pageable);
+    }
+
+    /**
+     * Find all songs with a filter.
+     *
+     * @param page A Page.
+     * @param size The Page size.
+     * @param filter The attribute to filter for.
+     * @param sort The attribute to sort for.
+     * @return Page of songs
+     **/
+    public Page<SongDto> findAllSongsWithFilter(int page, int size, String filter, String sort) {
+        Pageable pageable = PageableFactory.create(page, size, sort);
+        return songRepository.findAllWithFilterPageable(pageable, filter);
     }
 
 }

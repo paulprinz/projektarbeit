@@ -28,6 +28,8 @@ export class UploadSongDialogComponent {
         name: this.songName,
         artist: this.artistName,
         genre: this.genre,
+        likeCount: 0,
+        userId: 0
       };
 
       this.songService.uploadSong(this.selectedFile, songDto).subscribe({

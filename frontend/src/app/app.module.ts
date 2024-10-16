@@ -21,6 +21,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { AllSongsComponent } from './all-songs/all-songs.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -38,6 +39,7 @@ import { UploadSongDialogComponent } from './upload-song-dialog/upload-song-dial
     NavbarComponent,
     UserDetailsComponent,
     UserManagementComponent,
+    AllSongsComponent,
     MusicPlayerComponent,
     UploadSongDialogComponent
   ],

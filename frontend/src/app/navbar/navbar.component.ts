@@ -52,6 +52,11 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/user-management');
   }
 
+  // Navigate to AllSongs
+  navigateToAllSongs() {
+      this.router.navigateByUrl('/all-songs');
+  }
+
   openUploadSongDialog(): void {
     const dialogRef = this.dialog.open(UploadSongDialogComponent, {
       panelClass: 'open-dialog',

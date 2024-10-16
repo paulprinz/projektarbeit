@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from '../shared/services/Auth.guard';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { AllSongsComponent } from './all-songs/all-songs.component';
 import { MusicPlayerComponent } from './music-player/music-player.component';
 
 
@@ -36,6 +37,11 @@ const routes: Routes = [
   {
     path: 'user-management',
     component: UserManagementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'all-songs',
+    component: AllSongsComponent,
     canActivate: [AuthGuard]
   },
   {

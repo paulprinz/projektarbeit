@@ -1,0 +1,58 @@
+<div id="embeddedViewStyle" class="content-wrapper">
+  <!-- Header -->
+  <mat-card-header>
+    <!-- Filter -->
+    <div class="d-flex justify-content-center col-md-2 p-2">
+      <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filter" (keyup.enter)="applyFilter()" aria-label="Filter">
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Table -->
+    <div class="p-2">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col" (click)="sortData('name')">Name</th>
+            <th scope="col" (click)="sortData('artist')">Artist</th>
+            <th scope="col" (click)="sortData('genre')">Genre</th>
+            <th scope="col" (click)="sortData('likeCount')">Like Count</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let song of availableSongs.data">
+            <td>
+              <a [routerLink]="['/track', song.id]" class="text-decoration-none">
+                <i class="fa-solid fa-music" ></i>
+                {{ song.name }}
+              </a>
+            </td>
+            <td>{{ song.artist }}</td>
+            <td>{{ song.genre }}</td>
+            <td>{{ song.likeCount }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div>
+                  <button class="btn btn-danger btn-sm me-2" (click)="likeSong(song.id)">
+                    <i class="fa-solid fa-heart"></i>
+                  </button>
+                </div>
+                <div *ngIf="song.userId === this.userId">
+                  <button class="btn btn-danger btn-sm me-2" (click)="deleteSong(song.id)">
+                    <i class="fa-solid fa-user-slash"></i>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Paginator -->
+      <div class="d-flex justify-content-center">
+        <mat-paginator #paginator [length]="length" [pageSize]="5" (page)="handlePageEvent($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</div>

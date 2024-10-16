@@ -14,6 +14,11 @@ public class SongDto {
 
     private String genre;
 
+    private int likeCount;
+
+    private Long userId;
+
+
     public SongDto() {}
 
     public SongDto(Long id, String name, String artist, String genre) {
