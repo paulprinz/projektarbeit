@@ -1,6 +1,9 @@
 # Ignore the entire .idea folder
 /.idea/
 
+# Ignore .DS_Store
+/.DS_Store/
+
 # Default ignored files
 /shelf/
 workspace.xml
