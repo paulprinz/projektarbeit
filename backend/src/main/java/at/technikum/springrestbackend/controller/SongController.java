@@ -49,7 +49,7 @@ public class SongController {
     public ResponseEntity<PagedResponseDto<SongDto>> getAllSongs(
             @RequestParam(name = "pageSize", defaultValue = "50", required = false) int pageSize,
             @RequestParam(name = "page", required = true) int page,
-            @RequestParam(defaultValue = "username,asc") String sort,
+            @RequestParam(defaultValue = "name,asc") String sort,
             @RequestParam(required = false) String filter) {
 
 
