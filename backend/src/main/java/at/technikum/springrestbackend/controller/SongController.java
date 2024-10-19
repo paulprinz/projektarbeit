@@ -2,7 +2,6 @@ package at.technikum.springrestbackend.controller;
 
 import at.technikum.springrestbackend.dto.PagedResponseDto;
 import at.technikum.springrestbackend.dto.SongDto;
-import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.model.Song;
 import at.technikum.springrestbackend.service.SongService;
@@ -11,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/songs")
@@ -34,7 +35,16 @@ public class SongController {
         return ResponseEntity.ok(songService.convertToSongDto(song));
     }
 
-
+    /**
+     * Fetches all songs associated with a specific user ID.
+     *
+     * @param userId the ID of the user for whom to retrieve songs
+     * @return a list of songs associated with the given user ID
+     */
+    @GetMapping("/user/{userId}")
+    public List<SongDto> getSongsByUserId(@PathVariable Long userId) {
+        return songService.getSongsByUserId(userId);
+    }
 
     /**
      * Retrieves a paginated list of songs with optional filtering.
@@ -87,7 +97,6 @@ public class SongController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     /**
      * Likes a song by their ID.

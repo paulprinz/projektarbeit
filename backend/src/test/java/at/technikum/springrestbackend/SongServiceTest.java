@@ -169,11 +169,15 @@ public class SongServiceTest {
 
     @Test
     public void testConvertToSongDto() {
+        User user = new User();
+        user.setId(99L);
+
         Song song = new Song();
         song.setId(1L);
         song.setName("Test Song");
         song.setArtist("Test Artist");
         song.setGenre("Pop");
+        song.setUser(user);
 
         SongDto songDto = songService.convertToSongDto(song);
 

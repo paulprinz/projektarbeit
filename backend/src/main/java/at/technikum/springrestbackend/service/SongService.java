@@ -1,7 +1,6 @@
 package at.technikum.springrestbackend.service;
 
 import at.technikum.springrestbackend.dto.SongDto;
-import at.technikum.springrestbackend.dto.UserDetailsDto;
 import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.minio.MinioService;
 import at.technikum.springrestbackend.model.Song;
@@ -9,6 +8,7 @@ import at.technikum.springrestbackend.model.User;
 import at.technikum.springrestbackend.repository.SongRepository;
 import at.technikum.springrestbackend.utils.PageableFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class SongService {
@@ -27,6 +29,9 @@ public class SongService {
 
     @Autowired
     private MinioService minioService;
+
+    @Value("${minio.bucket-name-songs}")
+    private String songBucketName;
 
 
     /**
@@ -65,6 +70,19 @@ public class SongService {
      */
     public InputStream downloadSongFile(Song song, String songBucketName) throws Exception {
         return minioService.downloadFile(songBucketName, song.getFileName());
+    }
+
+    /**
+     * Retrieves a list of songs by userId.
+     *
+     * @param userId the ID of the User
+     * @return List of songs
+     */
+    public List<SongDto> getSongsByUserId(Long userId) {
+        List<Song> songs = songRepository.findAllByUserId(userId);
+        return songs.stream()
+                .map(this::convertToSongDto) // Convert Song to SongDto
+                .collect(Collectors.toList());
     }
 
     /**
@@ -119,7 +137,6 @@ public class SongService {
         songRepository.deleteById(song.getId());
     }
 
-
     /**
      * Likes the specified song.
      *
@@ -167,21 +184,6 @@ public class SongService {
     }
 
     /**
-     * Converts a Song object to a Song DTO
-     * @param song song object
-     * @return Song DTO
-     */
-    public SongDto convertToSongDto(Song song) {
-        return new SongDto(
-                song.getId(),
-                song.getName(),
-                song.getArtist(),
-                song.getGenre()
-        );
-    }
-
-
-    /**
      * Returns all Users.
      *
      * @param page page to return
@@ -207,6 +209,21 @@ public class SongService {
     public Page<SongDto> findAllSongsWithFilter(int page, int size, String filter, String sort) {
         Pageable pageable = PageableFactory.create(page, size, sort);
         return songRepository.findAllWithFilterPageable(pageable, filter);
+    }
+
+    /**
+     * Converts a Song object to a Song DTO
+     * @param song song object
+     * @return Song DTO
+     */
+    public SongDto convertToSongDto(Song song) {
+        return new SongDto(
+                song.getId(),
+                song.getName(),
+                song.getArtist(),
+                song.getGenre(),
+                song.getUser().getId()
+        );
     }
 
 }

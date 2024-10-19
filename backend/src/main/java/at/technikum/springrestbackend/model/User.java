@@ -3,6 +3,8 @@ package at.technikum.springrestbackend.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +37,9 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country", referencedColumnName = "name")
     private Country country;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Song> songs = new ArrayList<>();
 
     @Column(name = "follower_count")
     private int followerCount;

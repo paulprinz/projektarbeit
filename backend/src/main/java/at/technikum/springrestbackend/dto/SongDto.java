@@ -21,10 +21,11 @@ public class SongDto {
 
     public SongDto() {}
 
-    public SongDto(Long id, String name, String artist, String genre) {
+    public SongDto(Long id, String name, String artist, String genre, long userId) {
         this.id = id;
         this.name = name;
         this.artist = artist;
         this.genre = genre;
+        this.userId = userId;
     }
 }
