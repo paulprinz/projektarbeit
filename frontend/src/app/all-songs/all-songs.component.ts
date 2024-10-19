@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SongService } from '../../shared/services/Song.service';
-import { UserDetails } from '../../shared/models/UserDetails.model';
 import { UserDto } from '../../shared/models/UserDto.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,7 +39,7 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private songService: SongService,
-    private tokenService: TokenService,
+    public tokenService: TokenService,
     public snackBar: MatSnackBar,
     public router: Router,
   ) { }
@@ -52,6 +51,7 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userId = Number(this.tokenService.getUserId())
     this.loadSongs();
+    localStorage.setItem('returnUrl', "/all-songs");
   }
 
   async loadSongs() {
@@ -85,7 +85,6 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   likeSong(songId: number) {
       this.songService.likeSong(songId).subscribe({
         next: () => {
@@ -99,7 +98,6 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
       });
   }
   
-
   sortData(sort: any) {
     this.sortField = sort.active;
     if (sort.direction.length === 0 && this.sortDirection === 'asc') {
@@ -127,6 +125,10 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
     this.length = event.length;
     this.pageIndex = event.pageIndex;
     this.loadSongs();
+  }
+
+  navigateToSong(songId: number): void {
+    this.router.navigate(['/track', songId]); 
   }
 
   openSnackBar(message: string) {

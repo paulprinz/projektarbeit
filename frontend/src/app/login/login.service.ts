@@ -81,6 +81,7 @@ export class LoginService {
   */
   logout() {
     this.removeToken();
+    localStorage.removeItem('returnUrl');
   }
 
   /**

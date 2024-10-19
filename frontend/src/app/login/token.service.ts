@@ -42,10 +42,10 @@ export class TokenService {
      * Gets userId from token
      * @returns userId
      */
-    getUserId(): number | undefined {
+    getUserId(): number | null {
         const token = get();
         if(!token) {
-            return undefined;
+            return null;
         }
         return this.jwtHelper.decodeToken().sub as number;
     }

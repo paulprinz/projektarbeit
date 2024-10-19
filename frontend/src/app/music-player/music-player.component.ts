@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from '../../shared/services/File.service';
 import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SongDto } from '../../shared/models/SongDto.model';
 import { SongService } from '../../shared/services/Song.service';
 
@@ -35,6 +35,7 @@ export class MusicPlayerComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private songService: SongService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +158,15 @@ export class MusicPlayerComponent implements OnInit {
     const minutes = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  navigateBack() {
+    const backTo = localStorage.getItem('returnUrl');
+    if(backTo) {
+      this.router.navigateByUrl(backTo);
+    } else {
+      this.router.navigateByUrl('/home')
+    }
   }
 
   openSnackBar(message: string): void {

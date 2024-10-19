@@ -33,8 +33,12 @@
 }
 
 /* Input Fields */
+.userDetails-inputFields {
+  width: 40%;
+}
+
 .inputFields {
-  width: 85%;
+  width: 80%;
 }
 
 /* Avatar */
@@ -102,11 +106,15 @@
 
 /* User Details */
 #user-details-box {
-  width: 400px;
+  width: auto;
   height: auto; 
   padding: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
   border-radius: 8px; 
+}
+
+#userDetails-tab {
+  width: 50%;
 }
 
 /* Spacer */
@@ -251,13 +259,67 @@
   background-size: cover; 
 }
 
+/* UserDetails - Songs */
+.song-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 16px;
+  justify-content: center;
+}
 
+.song-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  width: 250px; 
+  border-radius: 8px; 
+  transition: transform 0.2s;
+}
 
+.song-card:hover {
+  transform: scale(1.05);
+}
 
+.song-image-container {
+  height: 150px;
+  background-size: cover; 
+  background-position: center;
+  border-radius: 8px 8px 0 0;
+  background-image: url('shared/assets/soundbox-cover.png');
+}
 
+.delete-button {
+  position: absolute;
+  top: 10px;
+  left: 180px; 
+  border-radius: 5px;
+  padding: 8px; 
+}
 
+.song-name {
+  font-weight: bold;
+}
 
+/* Profile Button */ 
 
+.user-profile-button {
+  position: absolute;
+  right: 5px;
+  background-color: #a8a9ab;
+  color: white;
+  padding: 8px;
+  border-radius: 0.2rem;
+}
+
+.user-profile-button:hover {
+  background-color: #000000;
+
+}
+
+.user-profile-button i {
+  font-size: 18px;
+}
 
 
 

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { PagedResponseDto } from '../models/PagedResponseDTO.model';
 
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -56,6 +55,10 @@ export class SongService {
 
     likeSong (id: number) {
         return this.http.post(this.apiUrl + this.likeSongUrl + id, 1)
+    }
+
+    getSongsByUserId(userId: number): Observable<SongDto[]> {
+        return this.http.get<SongDto[]>(this.apiUrl + '/user/' + userId);
     }
 
 }
