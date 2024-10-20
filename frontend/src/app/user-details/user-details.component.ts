@@ -314,6 +314,10 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate(['/track', songId]); // Navigate to /track/songId
   }
 
+  navigateToPlaylist(songId: number): void {
+    this.router.navigate(['/playlist', songId]); 
+  }
+
   asyncEmailValidator(control: AbstractControl): Observable<{ [key: string]: any } | null> {
     return of(control.value).pipe(
       delay(2000),
