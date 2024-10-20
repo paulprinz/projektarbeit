@@ -321,7 +321,8 @@
   font-size: 18px;
 }
 
-
-
-
+/* Searchbar */
+.custom-search-bar {
+  max-width: 300px;
+}
 

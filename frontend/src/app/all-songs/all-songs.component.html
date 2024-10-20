@@ -2,9 +2,12 @@
   <!-- Header -->
   <mat-card-header class="d-flex justify-content-center">
     <!-- Filter -->
-    <div>
+    <div class="input-group mb-3 custom-search-bar">
+      <button (click)="applyFilter()" class="input-group-text">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
       <input type="text" class="form-control" placeholder="Search for songs..." [(ngModel)]="filter" (keyup.enter)="applyFilter()" aria-label="Filter">
-    </div>
+    </div>    
   </mat-card-header>
   <div class="bottom-space"></div>
   <mat-card-content>
