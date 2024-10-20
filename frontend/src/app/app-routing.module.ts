@@ -8,6 +8,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { AllSongsComponent } from './all-songs/all-songs.component';
 import { MusicPlayerComponent } from './music-player/music-player.component';
+import { AllPlaylistsComponent } from './all-playlists/all-playlists.component';
 
 
 const routes: Routes = [
@@ -41,14 +42,16 @@ const routes: Routes = [
   },
   {
     path: 'all-songs',
-    component: AllSongsComponent,
-    canActivate: [AuthGuard]
+    component: AllSongsComponent
   },
   {
     path: 'track/:id',
-    component: MusicPlayerComponent,
-    canActivate: [AuthGuard]
+    component: MusicPlayerComponent
   },
+  {
+    path: 'all-playlists',
+    component: AllPlaylistsComponent
+  }
 ];
 
 @NgModule({

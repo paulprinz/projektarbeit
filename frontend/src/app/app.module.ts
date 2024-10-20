@@ -30,6 +30,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { MusicPlayerComponent } from './music-player/music-player.component';
 import { UploadSongDialogComponent } from './upload-song-dialog/upload-song-dialog.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { AllPlaylistsComponent } from './all-playlists/all-playlists.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     UserManagementComponent,
     AllSongsComponent,
     MusicPlayerComponent,
-    UploadSongDialogComponent
+    UploadSongDialogComponent,
+    AllPlaylistsComponent
   ],
   imports: [
     BrowserModule,

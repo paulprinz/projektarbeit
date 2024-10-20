@@ -38,9 +38,6 @@ public class User {
     @JoinColumn(name = "country", referencedColumnName = "name")
     private Country country;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Song> songs = new ArrayList<>();
-
     @Column(name = "follower_count")
     private int followerCount;
 
@@ -49,5 +46,11 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Picture picture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Song> songs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Playlist> playlists = new ArrayList<>();
 
 }

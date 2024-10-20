@@ -27,6 +27,10 @@ export class SongService {
         return this.http.get<SongDto>(this.apiUrl + '/' + songId);
     }
 
+    getSongsByUserId(userId: number): Observable<SongDto[]> {
+        return this.http.get<SongDto[]>(this.apiUrl + '/user/' + userId);
+    }
+
     uploadSong(file: File, songDto: SongDto): Observable<string> {
         const formData = new FormData();
         formData.append('file', file);
@@ -47,7 +51,7 @@ export class SongService {
         }
         
         return this.http.get<PagedResponseDto<SongDto>>(this.apiUrl + this.allSongsUrl, { params });
-      }
+    }
 
     deleteSong (id: number) {
         return this.http.delete(this.apiUrl + this.deleteSongUrl + id)
@@ -55,10 +59,6 @@ export class SongService {
 
     likeSong (id: number) {
         return this.http.post(this.apiUrl + this.likeSongUrl + id, 1)
-    }
-
-    getSongsByUserId(userId: number): Observable<SongDto[]> {
-        return this.http.get<SongDto[]>(this.apiUrl + '/user/' + userId);
     }
 
 }

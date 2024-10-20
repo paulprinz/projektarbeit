@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SongService } from '../../shared/services/Song.service';
-import { UserDto } from '../../shared/models/UserDto.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { SongDto } from '../../shared/models/SongDto.model';
 import { TokenService } from '../../app/login/token.service'
+import { LoginService } from '../login/login.service';
 
 
 @Component({
@@ -24,17 +23,10 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
   sortDirection = 'asc';
   sort = 'ascending';
 
-  pageSizeOptions: number[] | undefined;
-
-  displayedUsersColumns: string[] = ['name', 'artist', 'genre', 'likeCount', 'actions'];
-  
   userId: number | undefined;
-  userDetails: UserDto | undefined = {} as UserDto;
   songs: SongDto[] | undefined;
   availableSongs: MatTableDataSource<SongDto> = new MatTableDataSource<SongDto>([]);
-  filteredUsers: UserDto[] = [];
 
-  @ViewChild(MatSort) usersSort: MatSort | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -42,6 +34,7 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
     public tokenService: TokenService,
     public snackBar: MatSnackBar,
     public router: Router,
+    public loginService: LoginService,
   ) { }
   
   ngAfterViewInit(): void {

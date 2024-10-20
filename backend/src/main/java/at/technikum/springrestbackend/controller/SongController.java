@@ -49,11 +49,11 @@ public class SongController {
     /**
      * Retrieves a paginated list of songs with optional filtering.
      *
-     * @param pageSize the number of users per page
+     * @param pageSize the number of songs per page
      * @param page the page number to retrieve
-     * @param sort the sorting criteria (default is "username,asc")
-     * @param filter an optional filter string to filter users
-     * @return a ResponseEntity containing a paged response with user details
+     * @param sort the sorting criteria (default is "name,asc")
+     * @param filter an optional filter string to filter songs
+     * @return a ResponseEntity containing a paged response with song details
      */
     @GetMapping("/get-all")
     public ResponseEntity<PagedResponseDto<SongDto>> getAllSongs(
@@ -65,7 +65,6 @@ public class SongController {
 
         Page<SongDto> songPage;
         if (filter == null) {
-            // get all users - pageable
             songPage = songService.findAllSongs(page, pageSize, sort);
         } else {
             songPage = songService

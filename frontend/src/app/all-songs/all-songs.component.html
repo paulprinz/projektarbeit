@@ -20,18 +20,23 @@
             <br>
             <span class="song-genre">{{ song.genre }}</span>
           </mat-card-content>
-          <mat-card-actions>
-            <div class="d-flex align-items-center">
-              <div *ngIf="song.userId === this.userId || this.tokenService.isAdmin()">
-                <button mat-button color="warn" class="delete-button" (click)="deleteSong(song.id); $event.stopPropagation();">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </div>
-          </mat-card-actions>
+          <div class="d-flex justify-content-center align-items-end">
+            <ng-container *ngIf="this.loginService.isAuthenticated()">
+              <!-- Add Button -->
+              <button mat-button  class="btn btn-light">
+                <i class="fa-solid fa-plus" style="color: black;"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="song.userId === this.userId || this.tokenService.isAdmin()">
+              <!-- Delete Button -->
+              <button mat-button color="warn" (click)="deleteSong(song.id); $event.stopPropagation();" class="btn btn-light">
+                <i class="fa-solid fa-trash" style="color: red;"></i>
+              </button>
+            </ng-container>
+          </div>
         </mat-card>
       </div>
-      
+      <div class="bottom-space"></div>
       <!-- Paginator -->
       <div class="d-flex justify-content-center">
         <mat-paginator #paginator [length]="length" [pageSize]="5" (page)="handlePageEvent($event)">

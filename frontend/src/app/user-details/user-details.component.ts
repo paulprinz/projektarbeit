@@ -13,6 +13,8 @@ import { CountryService } from '../../shared/services/Country.service';
 import { CountryDto } from '../../shared/models/CountryDto.model';
 import { SongService } from '../../shared/services/Song.service';
 import { SongDto } from '../../shared/models/SongDto.model';
+import { PlaylistService } from '../../shared/services/Playlist.service';
+import { PlaylistDto } from '../../shared/models/PlaylistDto.model';
 
 @Component({
   selector: 'app-user-details',
@@ -32,6 +34,7 @@ export class UserDetailsComponent implements OnInit {
   roles: string[] = ['ROLE_ADMIN', 'ROLE_USER'];
   countries: CountryDto[] = [];
   songs: SongDto[] = [];
+  playlists: PlaylistDto[] = [];
 
   // Password change
   passwordForm: FormGroup = this.fb.group({
@@ -43,15 +46,16 @@ export class UserDetailsComponent implements OnInit {
   userProfileForm: FormGroup;
 
   constructor(
+    public router: Router,
+    public tokenService: TokenService,
     private snackBar: MatSnackBar,
     private fileService: FileService,
     private userService: UserService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    public tokenService: TokenService,
     private countryService: CountryService,
     private songService: SongService,
-    public router: Router,
+    private playlistService: PlaylistService,
   ) 
   { 
     // User profile form
@@ -101,6 +105,7 @@ export class UserDetailsComponent implements OnInit {
             this.userId = data.id;
             this.loadAvatar();
             this.loadUserSongs(this.userId);
+            this.loadUserPlaylists(this.userId);
             this.userProfileForm.patchValue(data);
 
             if (this.countries.length > 0) {
@@ -125,6 +130,7 @@ export class UserDetailsComponent implements OnInit {
           this.userId = data.id;
           this.loadAvatar();
           this.loadUserSongs(this.userId);
+          this.loadUserPlaylists(this.userId);
           this.userProfileForm.patchValue(data);
           if (this.countries.length > 0) {
             this.userProfileForm.patchValue({ country: data.country });
@@ -275,10 +281,31 @@ export class UserDetailsComponent implements OnInit {
       () => {
         // Remove the song from the local list after deletion
         this.songs = this.songs.filter(song => song.id !== songId);
-        console.log('Song deleted:', songId);
       },
       (error) => {
         console.error('Error deleting song:', error);
+      }
+    );
+  }
+
+  loadUserPlaylists(userId: number): void {
+    this.playlistService.getPlaylistsByUserId(userId).subscribe(
+      (playlists) => {
+        this.playlists = playlists;
+      },
+      (error) => {
+        console.error('Error fetching playlists', error);
+      }
+    );
+  }
+
+  deletePlaylist(playlistId: number): void {
+    this.playlistService.deletePlaylist(playlistId).subscribe(
+      () => {
+        this.playlists = this.playlists.filter(playlist => playlist.id !== playlistId);
+      },
+      (error) => {
+        console.error('Error deleting playlist:', error);
       }
     );
   }
