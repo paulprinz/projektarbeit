@@ -11,7 +11,7 @@
         <!-- Title -->
         <span class="player-title">SoundBox Music Player</span>
         <!-- User Profile Button -->
-        <a class="user-profile-button" [routerLink]="['/user', songDetails?.userId]" aria-label="User Profile">
+        <a *ngIf="this.loginService.isAuthenticated()" class="user-profile-button" [routerLink]="['/user', songDetails?.userId]" aria-label="User Profile">
           <i class="fa-solid fa-user"></i>
         </a>
       </div>
@@ -34,7 +34,7 @@
           <span class="song-artist">{{ songDetails?.artist || 'Loading...' }}</span>
         </div>
         <!-- Like Button -->
-        <button class="player-btn btn btn-outline-light" 
+        <button class="player-btn btn btn-outline-light" *ngIf="this.loginService.isAuthenticated()" 
             type="button" 
             [ngClass]="{ 'active': isLiked }" 
             (click)="toggleLiked()">

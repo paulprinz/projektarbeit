@@ -114,7 +114,7 @@
 }
 
 #userDetails-tab {
-  width: 50%;
+  width: 55%;
 }
 
 /* Spacer */
@@ -287,6 +287,7 @@
   background-position: center;
   border-radius: 8px 8px 0 0;
   background-image: url('shared/assets/soundbox-cover.png');
+  margin-bottom: 10px;
 }
 
 .delete-button {
@@ -302,7 +303,6 @@
 }
 
 /* Profile Button */ 
-
 .user-profile-button {
   position: absolute;
   right: 5px;
@@ -321,7 +321,8 @@
   font-size: 18px;
 }
 
-
-
-
+/* Searchbar */
+.custom-search-bar {
+  max-width: 300px;
+}
 

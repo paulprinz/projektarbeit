@@ -5,6 +5,7 @@ import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SongDto } from '../../shared/models/SongDto.model';
 import { SongService } from '../../shared/services/Song.service';
+import { LoginService } from '../login/login.service';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class MusicPlayerComponent implements OnInit {
     private route: ActivatedRoute,
     private songService: SongService,
     private router: Router,
+    public loginService: LoginService,
   ) {}
 
   ngOnInit(): void {

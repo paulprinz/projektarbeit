@@ -100,7 +100,7 @@
                 </mat-card-content>
 
                 <!-- Save Button -->
-                <mat-card-actions class="d-flex justify-content-center">
+                <mat-card-actions *ngIf="this.tokenService.isAdmin() || isViewingOwnProfile()" class="d-flex justify-content-center">
                   <div class="d-grid gap-2 col-4 mx-auto">
                     <button mat-button (click)="saveChanges()">Save</button>
                   </div>
@@ -178,6 +178,37 @@
                   </div>
                   <ng-template #noSongs>
                     <p>This SoundBox is waiting to be filled with music!</p>
+                  </ng-template>
+                </mat-card-content>
+              </mat-card>              
+            </div>
+          </div>
+        </mat-tab>
+        <!-- Fourth Tab: My Playlists -->
+        <mat-tab label="Playlists">
+          <div class="d-flex justify-content-center">
+            <div class="col-lg-12">
+              <mat-card id="user-details-box">
+                <mat-card-content>
+                  <div *ngIf="playlists.length > 0; else noPlaylists">
+                    <div class="song-list">
+                      <mat-card *ngFor="let playlist of playlists" class="song-card" (click)="navigateToPlaylist(playlist.id)">
+                        <div class="song-image-container"></div>
+                        <mat-card-content>
+                          <span class="song-name">{{ playlist.name || 'Loading...' }}</span>
+                          <br>
+                          <span class="song-artist">{{ playlist.songs.length || 0 }} song(s)</span>
+                        </mat-card-content>
+                        <mat-card-actions *ngIf="this.tokenService.isAdmin() || isViewingOwnProfile()">
+                          <button mat-button color="warn" class="delete-button" (click)="deletePlaylist(playlist.id); $event.stopPropagation();">
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        </mat-card-actions>
+                      </mat-card>
+                    </div>
+                  </div>
+                  <ng-template #noPlaylists>
+                    <p>This SoundBox is waiting to be filled with playlists!</p>
                   </ng-template>
                 </mat-card-content>
               </mat-card>              

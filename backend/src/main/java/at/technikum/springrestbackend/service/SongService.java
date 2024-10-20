@@ -81,7 +81,7 @@ public class SongService {
     public List<SongDto> getSongsByUserId(Long userId) {
         List<Song> songs = songRepository.findAllByUserId(userId);
         return songs.stream()
-                .map(this::convertToSongDto) // Convert Song to SongDto
+                .map(this::convertToSongDto)
                 .collect(Collectors.toList());
     }
 
@@ -184,7 +184,7 @@ public class SongService {
     }
 
     /**
-     * Returns all Users.
+     * Returns all Songs.
      *
      * @param page page to return
      * @param size size of page
