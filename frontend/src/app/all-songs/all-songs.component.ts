@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { SongDto } from '../../shared/models/SongDto.model';
 import { TokenService } from '../../app/login/token.service'
 import { LoginService } from '../login/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PlaylistService } from '../../shared/services/Playlist.service';
+import { PlaylistDto } from '../../shared/models/PlaylistDto.model';
+import { AddToPlaylistDialogComponent } from '../add-to-playlist-dialog/add-to-playlist-dialog.component';
 
 
 @Component({
@@ -26,15 +30,18 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
   userId: number | undefined;
   songs: SongDto[] | undefined;
   availableSongs: MatTableDataSource<SongDto> = new MatTableDataSource<SongDto>([]);
+  playlists: PlaylistDto[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private songService: SongService,
+    private playlistService: PlaylistService,
     public tokenService: TokenService,
     public snackBar: MatSnackBar,
     public router: Router,
     public loginService: LoginService,
+    public dialog: MatDialog
   ) { }
   
   ngAfterViewInit(): void {
@@ -44,6 +51,7 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userId = Number(this.tokenService.getUserId())
     this.loadSongs();
+    this.loadPlaylists();
     localStorage.setItem('returnUrl', "/all-songs");
   }
 
@@ -122,6 +130,41 @@ export class AllSongsComponent implements OnInit, AfterViewInit {
 
   navigateToSong(songId: number): void {
     this.router.navigate(['/track', songId]); 
+  }
+
+  // Load playlists for the user
+  loadPlaylists(): void {
+    this.playlistService.getPlaylistsByUserId(this.userId!).subscribe(playlists => {
+      this.playlists = playlists;
+    }, error => {
+      console.error('Error loading playlists:', error);
+    });
+  }
+
+  // Add song to selected playlist
+  addSongToPlaylist(playlistId: number, songId: number): void {
+    this.playlistService.addSongToPlaylist(playlistId, songId).subscribe({
+      next: () => {
+        this.openSnackBar('Song added to playlist successfully!');
+      },
+      error: (error) => {
+        console.error('Error adding song to playlist:', error);
+        this.openSnackBar('Failed to add song to playlist.');
+      }
+    });
+  }
+
+  openAddToPlaylistDialog(songId: number): void {
+    const dialogRef = this.dialog.open(AddToPlaylistDialogComponent, {
+      width: '300px',
+      data: this.playlists, // Pass the playlists to the dialog
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addSongToPlaylist(result, songId); // Call method to add song to playlist
+      }
+    });
   }
 
   openSnackBar(message: string) {

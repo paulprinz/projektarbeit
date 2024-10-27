@@ -1,7 +1,7 @@
 <div class="open-dialog modal-body d-flex justify-content-center align-items-center">
-  <div class="row">
+  <div class="row w-100">
     <!-- Left section: record image and song info -->
-    <div class="col-md-6 text-center d-flex flex-column justify-content-center align-items-center">
+    <div class="col-md-6 col-12 text-center d-flex flex-column justify-content-center align-items-center">
       <div class="record-display p-3 rounded d-flex flex-column align-items-center">
         <div class="record-image mb-3"></div> 
         <div class="record-info text-center">
@@ -12,7 +12,7 @@
     </div>
 
     <!-- Right section: input fields and file uploader -->
-    <div class="col-md-6 d-flex flex-column justify-content-center">
+    <div class="col-md-6 col-12 d-flex flex-column justify-content-center">
       <form (ngSubmit)="uploadSong()" #songForm="ngForm">
         <div class="form-group mb-3">
           <label for="songName">Song Name</label>
@@ -63,7 +63,7 @@
         </div>
       
         <div class="form-group mb-4">
-          <label for="fileInput"></label>
+          <label for="fileInput">Upload File</label>
           <input
             type="file"
             id="fileInput"
@@ -84,5 +84,3 @@
     </div>
   </div>
 </div>
-
-  

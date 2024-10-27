@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
 import { TokenService } from '../login/token.service';
 import { UploadSongDialogComponent } from '../upload-song-dialog/upload-song-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreatePlaylistDialogComponent } from '../create-playlist-dialog/create-playlist-dialog.component';
+import { PlaylistService } from '../../shared/services/Playlist.service';
+import { PlaylistDto } from '../../shared/models/PlaylistDto.model';
+import { AddToPlaylistDialogComponent } from '../add-to-playlist-dialog/add-to-playlist-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +23,7 @@ export class NavbarComponent implements OnInit {
     public tokenService: TokenService,
     private router: Router,
     private dialog: MatDialog,
+    private playlistService: PlaylistService,
   ) { }
 
 
@@ -52,16 +57,6 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/user-management');
   }
 
-  // Navigate to AllSongs
-  navigateToAllSongs() {
-    this.router.navigateByUrl('/all-songs');
-  }
-
-  // Navigate to AllPlaylists
-  navigateToAllPlaylists() {
-    this.router.navigateByUrl('/all-playlists');
-  }
-
   openUploadSongDialog(): void {
     const dialogRef = this.dialog.open(UploadSongDialogComponent, {
       panelClass: 'open-dialog',
@@ -70,6 +65,12 @@ export class NavbarComponent implements OnInit {
       data: {
         userId: this.userId
       }
+    });
+  }
+
+  openCreatePlaylistDialog(): void {
+    const dialogRef = this.dialog.open(CreatePlaylistDialogComponent, {
+      width: '400px'
     });
   }
 

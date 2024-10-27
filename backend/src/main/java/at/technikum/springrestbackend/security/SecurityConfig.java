@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("api/files/songs/{id}").permitAll()
                         .requestMatchers("api/playlists/user/{id}").permitAll()
                         .requestMatchers("api/playlists/get-all").permitAll()
+                        .requestMatchers("api/playlists/{id}").permitAll()
                         .requestMatchers(
                                 // Swagger UI
                                 "/swagger-ui/**",

@@ -26,7 +26,7 @@
           <div class="d-flex justify-content-center align-items-end">
             <ng-container *ngIf="this.loginService.isAuthenticated()">
               <!-- Add Button -->
-              <button mat-button  class="btn btn-light">
+              <button mat-button  class="btn btn-light" (click)="openAddToPlaylistDialog(song.id); $event.stopPropagation();">
                 <i class="fa-solid fa-plus" style="color: black;"></i>
               </button>
             </ng-container>

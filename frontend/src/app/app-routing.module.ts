@@ -9,6 +9,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { AllSongsComponent } from './all-songs/all-songs.component';
 import { MusicPlayerComponent } from './music-player/music-player.component';
 import { AllPlaylistsComponent } from './all-playlists/all-playlists.component';
+import { PlaylistPlayerComponent } from './playlist-player/playlist-player.component';
 
 
 const routes: Routes = [
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'all-playlists',
     component: AllPlaylistsComponent
+  },
+  {
+    path: 'playlist/:id',
+    component: PlaylistPlayerComponent
   }
 ];
 
