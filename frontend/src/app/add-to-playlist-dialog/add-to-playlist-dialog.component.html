@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Add Song to Playlist</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Select a Playlist</mat-label>
+    <mat-select [(value)]="selectedPlaylistId">
+      <mat-option *ngFor="let playlist of playlists" [value]="playlist.id">
+        {{ playlist.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="create-playlist-link">
+    <button mat-button color="primary" (click)="openCreatePlaylistDialog()">
+      + Create New Playlist
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onAdd()" [disabled]="!selectedPlaylistId">Add</button>
+</mat-dialog-actions>

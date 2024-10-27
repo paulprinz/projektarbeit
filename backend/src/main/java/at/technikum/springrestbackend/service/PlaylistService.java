@@ -50,6 +50,18 @@ public class PlaylistService {
     }
 
     /**
+     * Retrieves a Playlist by their ID.
+     * @param playlistId the ID of the playlist to be retrieved.
+     * @return if no playlist with the given ID is found.
+     */
+    public PlaylistDto getPlaylistById(Long playlistId) {
+        var result = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new IllegalArgumentException("Playlist with ID " + playlistId + " not found."));
+
+        return convertToPlaylistDto(result);
+    }
+
+    /**
      * Returns all Playlists.
      *
      * @param page page to return

@@ -31,6 +31,10 @@ import { MusicPlayerComponent } from './music-player/music-player.component';
 import { UploadSongDialogComponent } from './upload-song-dialog/upload-song-dialog.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AllPlaylistsComponent } from './all-playlists/all-playlists.component';
+import { PlaylistPlayerComponent } from './playlist-player/playlist-player.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CreatePlaylistDialogComponent } from './create-playlist-dialog/create-playlist-dialog.component';
+import { AddToPlaylistDialogComponent } from './add-to-playlist-dialog/add-to-playlist-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,9 +48,13 @@ import { AllPlaylistsComponent } from './all-playlists/all-playlists.component';
     AllSongsComponent,
     MusicPlayerComponent,
     UploadSongDialogComponent,
-    AllPlaylistsComponent
+    AllPlaylistsComponent,
+    PlaylistPlayerComponent,
+    AddToPlaylistDialogComponent,
+    CreatePlaylistDialogComponent,
   ],
   imports: [
+    MatDialogModule,
     BrowserModule,
     MatTableModule,
     ReactiveFormsModule,

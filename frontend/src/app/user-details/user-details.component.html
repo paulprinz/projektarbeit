@@ -1,7 +1,7 @@
 <div id="embeddedViewStyle" class="content-wrapper">
   <div class="player-container w-100">
     <!-- User Name -->
-    <mat-card-title class="fw-bold d-flex justify-content-center">
+    <mat-card-title class="fw-bold d-flex justify-content-center text-light">
       {{ userDetails?.username || 'Loading...' }}
     </mat-card-title>
     <div class="spacer"></div>
@@ -34,8 +34,8 @@
                             (change)="onFileChange($event)"
                           />
                           <!-- Upload or Delete icon -->
-                          <span class="material-symbols-outlined" *ngIf="!fileUrl"> upload </span>
-                          <span class="material-symbols-outlined" *ngIf="fileUrl" (click)="deleteAvatar()"> delete </span>
+                          <span class="material-symbols-outlined text-black" *ngIf="!fileUrl"> upload </span>
+                          <span class="material-symbols-outlined text-black" *ngIf="fileUrl" (click)="deleteAvatar()"> delete </span>
                         </div>
                       </label>
                     </div>
@@ -102,7 +102,7 @@
                 <!-- Save Button -->
                 <mat-card-actions *ngIf="this.tokenService.isAdmin() || isViewingOwnProfile()" class="d-flex justify-content-center">
                   <div class="d-grid gap-2 col-4 mx-auto">
-                    <button mat-button (click)="saveChanges()">Save</button>
+                    <button class="custom-button" (click)="saveChanges()">Save</button>
                   </div>
                 </mat-card-actions>
               </mat-card>
@@ -146,7 +146,7 @@
                 <!-- Save Button -->
                 <mat-card-actions class="d-flex justify-content-center">
                   <div class="d-grid gap-2 col-4 mx-auto">
-                    <button mat-button (click)="changePassword()">Save</button>
+                    <button class="custom-button" (click)="changePassword()">Save</button>
                   </div>
                 </mat-card-actions>
               </mat-card>

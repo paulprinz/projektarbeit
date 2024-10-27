@@ -1,44 +1,96 @@
 /* Main content area */
 #embeddedViewStyle {
   height: 100vh;
-  overflow-y: auto; /* Allow vertical scroll only if necessary */
+  overflow-y: auto;
 }
 
 .content-wrapper {
-  padding-top: 100px; /* Add space below the navbar */
+  padding-top: 100px;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
 /* Fixed navbar */
-.navbar {          
+.navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; 
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
 }
 
-/* Site Bottom */
-.bottom-space {
-  padding-bottom: 50px;
+.navbar .container-fluid {
+  padding: 0.5rem 1rem;
 }
+
+/* NavBar Buttons */
+.navbar-button {
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #000000; 
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar-button:hover {
+  background-color: #f0f0f013;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
 
 /* Login and Register Box */
 #login-and-register-box {
   width: 400px;
   height: auto;
   padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(1,1, 1, 1);
   border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.0);
+  backdrop-filter: blur(3px);
+  transition: background-color 0.3s ease;
 }
 
-/* Input Fields */
-.userDetails-inputFields {
-  width: 40%;
+/* Login and Register Button */
+.custom-button {
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #f0f0f013;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.custom-button:hover {
+  background-color: #ffffff;
+  color: #000000; 
+  transform: translateY(-2px);
 }
 
 .inputFields {
   width: 80%;
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* Input Fields */
+.userDetails-inputFields {
+  width: 40%;
 }
 
 /* Avatar */
@@ -59,7 +111,7 @@
   width: 100px;
   z-index: 1;
   border-radius: 50%;
-  background-color: #f0f0f0;
+  background-color: #000000;
   background-position: center;
   background-size: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -109,34 +161,77 @@
   width: auto;
   height: auto; 
   padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
-  border-radius: 8px; 
+  background-color: #f0f0f013;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 #userDetails-tab {
   width: 55%;
 }
 
-/* Spacer */
-.spacer {
-  padding-bottom: 20px;
-}  
+#userDetails-tab .mdc-tab__text-label {
+  color: #f0f0f0; /* Replace with the desired color */
+}
+
+/* UserDetails - Songs */
+.song-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 16px;
+  justify-content: center;
+}
+
+.song-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  width: 250px; 
+  border-radius: 8px; 
+  transition: transform 0.2s;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+}
+
+.song-card:hover {
+  transform: scale(1.05);
+}
+
+.song-image-container {
+  height: 150px;
+  background-size: cover; 
+  background-position: center;
+  border-radius: 8px 8px 0 0;
+  background-image: url('shared/assets/soundbox-cover.png');
+  margin-bottom: 10px;
+  
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  left: 160px; 
+  border-radius: 5px;
+  padding: 8px; 
+}
+
+.song-name {
+  font-weight: bold;
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
 
 /* Music Player Card */
 .player {
-  max-width: 30rem;
-  background-color: #2b2c2e;
-  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.4);
-  border-radius: 1.5rem;
-}
-
-/* Player Header */
-.player-title {
-  position: absolute;
-  left: 25%;
-  font-size: 1.2rem;
-  color: #101112e3;
-  font-weight: bold;
+  max-width: 40rem;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.0) !important;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
 }
 
 /* Current Song Cover Section */
@@ -147,7 +242,7 @@
   border-radius: 50%;
   box-shadow: 0.6rem 0.6rem 2rem rgba(0, 0, 0, 0.5), 
               -0.6rem -0.6rem 2rem rgba(255, 255, 255, 0.2);
-  background: #101112e3; 
+  background: #00000054; 
   background-image: url('shared/assets/record-img.png');
   background-size: cover; 
   background-position: center;
@@ -181,6 +276,7 @@
 /* Song Info */
 .song-info {
   margin-top: 1.5rem;
+  color: white;
 }
 
 .song-name {
@@ -198,7 +294,7 @@
   height: 3.5rem;
   border: none;
   background-color: transparent;
-  color: #a8a9ab;
+  color: #ffffff;
 }
 
 .player-btn i {
@@ -216,7 +312,7 @@
 
 .song-time {
   height: 0.4rem;
-  background-color: #2b2c2e;
+  background-color: #ffffff;
   border-radius: 0.2rem;
 }
 
@@ -240,7 +336,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
 .dialog-button {
@@ -259,70 +354,189 @@
   background-size: cover; 
 }
 
-/* UserDetails - Songs */
-.song-list {
-  display: flex;
-  flex-wrap: wrap; 
-  gap: 16px;
-  justify-content: center;
-}
 
-.song-card {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  cursor: pointer;
-  width: 250px; 
-  border-radius: 8px; 
-  transition: transform 0.2s;
-}
-
-.song-card:hover {
-  transform: scale(1.05);
-}
-
-.song-image-container {
-  height: 150px;
-  background-size: cover; 
-  background-position: center;
-  border-radius: 8px 8px 0 0;
-  background-image: url('shared/assets/soundbox-cover.png');
-  margin-bottom: 10px;
-}
-
-.delete-button {
-  position: absolute;
-  top: 10px;
-  left: 180px; 
-  border-radius: 5px;
-  padding: 8px; 
-}
-
-.song-name {
-  font-weight: bold;
-}
-
-/* Profile Button */ 
+/* Music Player - Profile Button */ 
 .user-profile-button {
   position: absolute;
   right: 5px;
-  background-color: #a8a9ab;
   color: white;
   padding: 8px;
   border-radius: 0.2rem;
 }
 
 .user-profile-button:hover {
-  background-color: #000000;
-
+  color: #000000;
+  background-color: #ffffff;
 }
 
 .user-profile-button i {
   font-size: 18px;
 }
 
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
 /* Searchbar */
 .custom-search-bar {
   max-width: 300px;
 }
+
+/* Playlist*/
+/* Playlist Player */
+.playlist-player {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.6) !important; /* Changed to a darker shade */
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
+  padding: 20px; /* Added padding for better spacing */
+}
+
+/* List Group */
+.list-group {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly brighter background */
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
+  margin-top: 25px; /* Keeps margin on top */
+}
+
+/* Active List Item */
+.list-group-item.active {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* Lighter for active item */
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
+}
+
+/* Default List Item */
+.list-group-item {
+  background-color: rgba(255, 255, 255, 0.1); /* Make it slightly visible */
+  color: #ffffff; /* Ensure text is visible */
+}
+
+/* Hover Effect */
+.list-group-item:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Slightly brighter on hover */
+}
+
+/* Song Name and Artist */
+.playlist-song-name {
+  display: block; 
+  font-weight: bold; 
+  color: #ffffff; /* White for better visibility */
+}
+
+.playlist-song-artist {
+  display: block; 
+  color: #d1d1d1; /* Light grey for artist name */
+}
+
+/* Profile Button */
+.playlist-profile-button {
+  color: white;
+  padding: 8px;
+  border-radius: 0.2rem;
+}
+
+.playlist-profile-button:hover {
+  color: #000000;
+  background-color: #ffffff; /* Change to white on hover */
+}
+
+/* Icon Styles */
+.playlist-profile-button i {
+  font-size: 18px;
+}
+
+/* Controls */
+.playlist-controls {
+  background-color: rgba(0, 0, 0, 0.6); /* Darker for contrast */
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+  padding: 10px; /* Added padding for controls */
+}
+
+
+.playlist-songs {
+  max-height: 250px; /* Set a maximum height for the playlist */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal overflow */
+  margin-bottom: 60px; /* Add some margin to account for the controls at the bottom */
+}
+
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* Home */ 
+.img-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.img-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); 
+}
+
+.card-text {
+  font-weight: bold;
+  color: #333;
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* Site Bottom */
+.bottom-space {
+  padding-bottom: 50px;
+}
+
+.spacer {
+  padding-bottom: 20px;
+}  
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* Scrollbar Style */
+/* For Chrome, Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #2c2c2c;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: #999;
+}
+
+*::-webkit-scrollbar-thumb:horizontal {
+  background: #555;
+  border-radius: 10px;
+}
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #2c2c2c;
+}
+
+
 

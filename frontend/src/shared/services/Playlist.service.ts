@@ -26,6 +26,10 @@ export class PlaylistService {
         return this.http.get<PlaylistDto[]>(this.apiUrl + '/user/' + userId);
     }
 
+    getPlaylistById(id: number): Observable<PlaylistDto> {
+        return this.http.get<PlaylistDto>(this.apiUrl + '/' + id);
+    }
+
     getPlaylistsWithFilterSort(pageIndex: number, filter: string, sort: string): Observable<PagedResponseDto<PlaylistDto>> {
         let params = new HttpParams()
               .set('page', pageIndex)

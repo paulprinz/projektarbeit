@@ -2,6 +2,7 @@ package at.technikum.springrestbackend.controller;
 
 import at.technikum.springrestbackend.dto.PagedResponseDto;
 import at.technikum.springrestbackend.dto.PlaylistDto;
+import at.technikum.springrestbackend.exception.EntityNotFoundException;
 import at.technikum.springrestbackend.security.principal.UserPrincipal;
 import at.technikum.springrestbackend.service.SongService;
 import jakarta.validation.Valid;
@@ -38,6 +39,21 @@ public class PlaylistController {
     public ResponseEntity<List<PlaylistDto>> getPlaylistsByUserId(@PathVariable Long userId) {
         List<PlaylistDto> playlists = playlistService.getPlaylistsByUserId(userId);
         return ResponseEntity.ok(playlists);
+    }
+
+    /**
+     * Retrieves a playlist by their ID.
+     * @param id the ID of the playlist to retrieve
+     * @return a ResponseEntity containing the playlist details
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<PlaylistDto> getPlaylistById(@PathVariable Long id) {
+        try {
+            PlaylistDto playlistDto = playlistService.getPlaylistById(id);
+            return ResponseEntity.ok(playlistDto);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     /**
