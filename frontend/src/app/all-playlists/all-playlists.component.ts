@@ -55,7 +55,6 @@ export class AllPlaylistsComponent implements OnInit, AfterViewInit {
         const filter = this.filter;
         
         await this.playlistService.getPlaylistsWithFilterSort(pageIndex, filter, sort).subscribe(data => {
-            console.log(data); // Log the API response here
             this.playlists = data.content;
             this.length = data.totalItems;
             this.availablePlaylists = new MatTableDataSource(this.playlists);
@@ -109,8 +108,8 @@ export class AllPlaylistsComponent implements OnInit, AfterViewInit {
     this.loadPlaylists();
   }
 
-  navigateToPlaylist(songId: number): void {
-    this.router.navigate(['/playlist', songId]); 
+  navigateToPlaylist(playlistId: number): void {
+    this.router.navigate(['/playlist', playlistId]); 
   }
 
   openSnackBar(message: string) {

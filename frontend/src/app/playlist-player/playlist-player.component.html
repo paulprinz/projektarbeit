@@ -10,7 +10,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <h3 style="flex: 1; text-align: center" class="text-light">{{ playlistName || 'Loading...' }}</h3>
-                    <a *ngIf="this.loginService.isAuthenticated()" class="playlist-profile-button" [routerLink]="['/user', songDetails?.userId]" aria-label="User Profile">
+                    <a *ngIf="this.loginService.isAuthenticated()" class="playlist-profile-button" [routerLink]="['/user', playlistUserId]" aria-label="User Profile">
                         <i class="fa-solid fa-user"></i>
                     </a>
                 </div>

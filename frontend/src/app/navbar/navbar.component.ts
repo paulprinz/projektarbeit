@@ -70,6 +70,7 @@ export class NavbarComponent implements OnInit {
 
   openCreatePlaylistDialog(): void {
     const dialogRef = this.dialog.open(CreatePlaylistDialogComponent, {
+      panelClass: 'my-css-class',
       width: '400px'
     });
   }
