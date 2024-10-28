@@ -18,7 +18,8 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
             + "(p.id AS id, "
             + "p.name AS name, "
             + "p.user.id AS userId) "
-            + "FROM Playlist p")
+            + "FROM Playlist p "
+            + "JOIN p.songs s") // Only select playlists that have songs
     Page<PlaylistDto> findAllPageable(Pageable pageable);
 
     @Query("SELECT DISTINCT new at.technikum.springrestbackend.dto.PlaylistDto "
@@ -26,6 +27,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
             + "p.name AS name, "
             + "p.user.id AS userId) "
             + "FROM Playlist p "
+            + "JOIN p.songs s " // Only select playlists that have songs
             + "WHERE (:filter IS NULL OR CONCAT(p.name, ' ') LIKE %:filter%)")
     Page<PlaylistDto> findAllWithFilterPageable(Pageable pageable, @Param("filter") String filter);
 

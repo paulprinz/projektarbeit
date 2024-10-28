@@ -172,7 +172,7 @@
 }
 
 #userDetails-tab .mdc-tab__text-label {
-  color: #f0f0f0; /* Replace with the desired color */
+  color: #f0f0f0;
 }
 
 /* UserDetails - Songs */
@@ -382,53 +382,109 @@
   max-width: 300px;
 }
 
+.input-group-text {
+  color: white;
+  box-shadow: 0px 4px 10px rgba(1,1, 1, 1);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.0);
+  backdrop-filter: blur(3px);
+  transition: background-color 0.3s ease;
+}
+
+.form-control {
+  color: white;
+  box-shadow: 0px 4px 10px rgba(1, 1, 1, 1);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.0); 
+  backdrop-filter: blur(3px);
+  transition: background-color 0.3s ease;
+}
+
+.form-control:focus {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.0);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: rgb(255, 255, 255); 
+}
+
+mat-paginator {
+  box-shadow: 0px 4px 10px rgba(1, 1, 1, 1);
+  border-radius: 8px;
+  backdrop-filter: blur(3px);
+  transition: background-color 0.3s ease;
+  --mat-paginator-container-background-color: rgba(0, 0, 0, 0.0); 
+  --mat-paginator-container-text-color: white;
+  --mat-paginator-disabled-icon-color: white;
+  --mat-paginator-enabled-icon-color: white;
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* User Management Table */ 
+.table {
+  --bs-table-color-state: white;
+  --bs-table-color-type: white;
+  --bs-table-color: white;
+  --bs-table-bg: rgba(0, 0, 0, 0.0); 
+  --bs-table-hover-color: rgb(0, 140, 255);
+}
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
 /* Playlist*/
-/* Playlist Player */
 .playlist-player {
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.6) !important; /* Changed to a darker shade */
+  background-color: rgba(0, 0, 0, 0.6) !important;
   backdrop-filter: blur(10px);
   transition: background-color 0.3s ease;
-  padding: 20px; /* Added padding for better spacing */
+  padding: 20px;
 }
 
 /* List Group */
 .list-group {
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly brighter background */
+  background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   transition: background-color 0.3s ease;
-  margin-top: 25px; /* Keeps margin on top */
+  margin-top: 25px;
 }
 
-/* Active List Item */
 .list-group-item.active {
-  background-color: rgba(255, 255, 255, 0.2) !important; /* Lighter for active item */
+  background-color: rgba(255, 255, 255, 0.2) !important;
   backdrop-filter: blur(10px);
   transition: background-color 0.3s ease;
 }
 
-/* Default List Item */
 .list-group-item {
-  background-color: rgba(255, 255, 255, 0.1); /* Make it slightly visible */
-  color: #ffffff; /* Ensure text is visible */
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-/* Hover Effect */
 .list-group-item:hover {
-  background-color: rgba(255, 255, 255, 0.3); /* Slightly brighter on hover */
+  background-color: rgba(255, 255, 255, 0.3);
 }
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
 
 /* Song Name and Artist */
 .playlist-song-name {
   display: block; 
   font-weight: bold; 
-  color: #ffffff; /* White for better visibility */
+  color: #ffffff;
 }
 
 .playlist-song-artist {
   display: block; 
-  color: #d1d1d1; /* Light grey for artist name */
+  color: #d1d1d1;
 }
 
 /* Profile Button */
@@ -440,7 +496,7 @@
 
 .playlist-profile-button:hover {
   color: #000000;
-  background-color: #ffffff; /* Change to white on hover */
+  background-color: #ffffff;
 }
 
 /* Icon Styles */
@@ -450,19 +506,19 @@
 
 /* Controls */
 .playlist-controls {
-  background-color: rgba(0, 0, 0, 0.6); /* Darker for contrast */
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease;
-  padding: 10px; /* Added padding for controls */
+  padding: 10px;
 }
 
 
 .playlist-songs {
-  max-height: 250px; /* Set a maximum height for the playlist */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden; /* Hide horizontal overflow */
-  margin-bottom: 60px; /* Add some margin to account for the controls at the bottom */
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 60px;
 }
 
 
@@ -474,6 +530,9 @@
 .img-card {
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.0) !important;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
 }
 
 .img-card:hover {
@@ -483,8 +542,45 @@
 
 .card-text {
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
 }
+
+/*
+-----------------------------------------------------------------------------------------------
+*/
+
+/* Dialog */ 
+.mdc-dialog__surface {
+  box-shadow: 0px 4px 10px rgba(1,1, 1, 1);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.0) !important;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease;
+}
+
+/* Upload Dialog */ 
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+}
+
+.custom-file-label {
+  background-color: #f0f0f013;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  background-color: #ffffff;
+  color: #000000; 
+  transform: translateY(-2px);
+}
+
 
 /*
 -----------------------------------------------------------------------------------------------

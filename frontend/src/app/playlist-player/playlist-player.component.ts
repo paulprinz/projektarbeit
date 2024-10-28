@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from '../../shared/services/File.service';
 import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { SongDto } from '../../shared/models/SongDto.model';
 import { SongService } from '../../shared/services/Song.service';
 import { LoginService } from '../login/login.service';
 import { PlaylistService } from '../../shared/services/Playlist.service';
 import { TokenService } from '../login/token.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
   selector: 'app-playlist-player',
   templateUrl: './playlist-player.component.html',
 })
-export class PlaylistPlayerComponent implements OnInit {
+export class PlaylistPlayerComponent implements OnInit, OnDestroy {
   // Song
   fileUrl: string = '';
   songId: number | undefined;
@@ -42,6 +43,7 @@ export class PlaylistPlayerComponent implements OnInit {
   isLoading: boolean = false;
 
   @ViewChild('progressBar', { static: false }) progressBar!: ElementRef;
+  private routerSubscription!: Subscription;
 
   constructor(
     private fileService: FileService,
@@ -55,6 +57,13 @@ export class PlaylistPlayerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Stop music on route change
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.stopMusic();
+      }
+    });
+
     const playlistId = +this.route.snapshot.paramMap.get('id')!;
   
     this.playlistService.getPlaylistById(playlistId).subscribe(playlist => {
@@ -64,6 +73,21 @@ export class PlaylistPlayerComponent implements OnInit {
       this.playlistSongs = playlist.songs;
       this.playSongFromPlaylist(this.currentSongIndex);
     });
+  }
+
+  // Stop music playback
+  stopMusic(): void {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.isPlaying = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   playSongFromPlaylist(index: number): void {

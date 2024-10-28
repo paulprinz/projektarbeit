@@ -49,7 +49,7 @@
               <i class="fa-solid fa-headphones"></i>
               Create Playlist
             </button>
-            <button mat-menu-item (click)="navigateToUserManagement()" matTooltip="User Management" aria-label="User Management">
+            <button mat-menu-item (click)="navigateToUserManagement()" *ngIf="this.tokenService.isAdmin()" matTooltip="User Management" aria-label="User Management">
               <i class="fa-solid fa-users"></i>
               User Management
             </button>
